@@ -13,9 +13,13 @@ app.use(
         maxAge: 1000 * 60 * 60 * 24 * 14,
     })
 );
-//This is a built-in middleware function in Express. It parses incoming requests with JSON payloads.
+
+//express.json() is a method inbuilt in express
+//to recognize the incoming Request Object as a JSON Object.
 app.use(express.json());
 
+//Through the use of this compression,
+//we can improve the performance of our Node.js applications as our payload size is reduced drastically.
 app.use(compression());
 
 app.use(express.static(path.join(__dirname, "..", "client", "public")));
