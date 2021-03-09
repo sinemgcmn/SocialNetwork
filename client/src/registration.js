@@ -1,5 +1,5 @@
 import React from "react";
-import axios from "axios";
+import axios from "./axios";
 
 export default class Registration extends React.Component {
     // class component
@@ -49,7 +49,10 @@ export default class Registration extends React.Component {
     render() {
         return (
             <div>
-                {/* <h1>Hey cat weirdo, please register first</h1> */}
+                <h1 className="headerTop">CATPSTER</h1>
+                <p className="headerBottom">
+                    We Always Celebrate Caturday in Berlin
+                </p>
                 {this.state.error && <h1> something went wrong</h1>}
                 <input
                     className="regInputs"

@@ -6,27 +6,25 @@
 body {
     display: grid;
     min-height: 100vh;
-    grid-template-rows: 100px 1fr 40px;
+    grid-template-rows: 70px 1fr 40px;
 }
 
+/* essentials */
+
 header {
-    background-color: rgb(96, 91, 91);
-    /* background-image: url("header4.png");
-    background-repeat: no-repeat; */
+    background-color: rgb(0, 0, 0);
 }
 
 .headerTop {
-    position: relative;
-    margin: 10px;
-    font-size: 34px;
-    letter-spacing: 38px;
+    font-size: 90px;
+    letter-spacing: 32px;
     text-align: center;
     color: white;
 }
 
 .headerBottom {
     position: relative;
-    font-size: 25px;
+    font-size: 16px;
     font-style: italic;
     letter-spacing: 12px;
     text-align: center;
@@ -35,15 +33,27 @@ header {
 }
 
 main {
-    background-image: url("kitten.jpg");
-    background-size: cover;
+    background-image: url("coolcat.jpg");
+    background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
+    background-color: rgb(0, 0, 0);
 }
 
 footer {
-    background-color: rgb(96, 91, 91);
+    background-color: rgb(0, 0, 0);
+    color: white;
+    font-style: italic;
 }
+
+.logo {
+    width: 75px;
+    height: 75px;
+    margin-left: 15px;
+    margin-top: 5px;
+}
+
+/* Main Parts */
 
 .regInputs {
     display: flex;

@@ -5,6 +5,7 @@ const path = require("path");
 const db = require("./db");
 const { hash, compare } = require("./utils/bc.js");
 const cookieSession = require("cookie-session");
+const csurf = require("csurf");
 
 //Cookie Middleware
 app.use(
@@ -13,6 +14,13 @@ app.use(
         maxAge: 1000 * 60 * 60 * 24 * 14,
     })
 );
+
+app.use(csurf());
+
+app.use(function (req, res, next) {
+    res.cookie("mytoken", req.csrfToken());
+    next();
+});
 
 //express.json() is a method inbuilt in express
 //to recognize the incoming Request Object as a JSON Object.
