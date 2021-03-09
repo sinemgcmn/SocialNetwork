@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "./axios";
+import { Link } from "react-router-dom";
 
 export default class Login extends React.Component {
     // class component
@@ -49,24 +50,39 @@ export default class Login extends React.Component {
     render() {
         return (
             <div>
-                <h1 className="headerTop">CATPSTER</h1>
+                <h1 className="headerTop">C.A.T.P.S.T.E.R</h1>
                 <p className="headerBottom">
                     We Always Celebrate Caturday in Berlin
                 </p>
-                {this.state.error && <h1> something went wrong</h1>}
-                <input
-                    className="regInputs"
-                    name="email"
-                    placeholder="email"
-                    onChange={(e) => this.handleChange(e)}
-                />
-                <input
-                    className="regInputs"
-                    name="password"
-                    placeholder="password"
-                    onChange={(e) => this.handleChange(e)}
-                />
-                <button onClick={() => this.handleClick()}> Submit</button>
+                {this.state.error && (
+                    <h2 className="errorMsg">
+                        Sorry, something went wrong.Please check your
+                        information!
+                    </h2>
+                )}
+                <div className="userForm">
+                    <input
+                        className="regInputs"
+                        name="email"
+                        placeholder="email"
+                        onChange={(e) => this.handleChange(e)}
+                    />
+                    <input
+                        className="regInputs"
+                        name="password"
+                        placeholder="password"
+                        onChange={(e) => this.handleChange(e)}
+                    />
+                    <button
+                        className="regButton"
+                        onClick={() => this.handleClick()}
+                    >
+                        Submit
+                    </button>
+                </div>
+                <Link className="loginMsg" to="/">
+                    Create new account!
+                </Link>
             </div>
         );
     }

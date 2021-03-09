@@ -71,6 +71,7 @@ app.post("/login", (req, res) => {
     const { password, email } = req.body;
     if (email && password) {
         db.userInputForLog(email).then(({ rows }) => {
+            console.log(rows);
             if (rows.length === 0) {
                 res.json({
                     success: false,
@@ -81,6 +82,10 @@ app.post("/login", (req, res) => {
                         req.session.userId = rows[0].id;
                         res.json({
                             success: true,
+                        });
+                    } else {
+                        res.json({
+                            success: false,
                         });
                     }
                 });
