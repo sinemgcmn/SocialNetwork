@@ -67,6 +67,32 @@ app.post("/registration", (req, res) => {
     }
 });
 
+app.post("/login", (req, res) => {
+    const { password, email } = req.body;
+    if (email && password) {
+        db.userInputForLog(email).then(({ rows }) => {
+            if (rows.length === 0) {
+                res.json({
+                    success: false,
+                });
+            } else if (rows) {
+                compare(password, rows[0].password_hash).then((match) => {
+                    if (match) {
+                        req.session.userId = rows[0].id;
+                        res.json({
+                            success: true,
+                        });
+                    }
+                });
+            }
+        });
+    } else {
+        res.json({
+            success: false,
+        });
+    }
+});
+
 app.get("*", function (req, res) {
     // runs if the user goes to literally any route except /welcome
     if (!req.session.userId) {
@@ -83,6 +109,3 @@ app.get("*", function (req, res) {
 app.listen(process.env.PORT || 3001, function () {
     console.log("I'm listening.");
 });
-
-// req.session.userId = rows[0].id;
-// res.redirect("/");

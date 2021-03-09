@@ -16,3 +16,14 @@ module.exports.userInputForReg = (first, last, email, password) => {
     const params = [first, last, email, password];
     return db.query(q, params);
 };
+
+module.exports.userInputForLog = (email) => {
+    const q = `
+        SELECT email, password_hash, id
+        FROM users  
+        WHERE email = '${email}'
+    `;
+
+    const params = email;
+    return db.query(q, params);
+};
