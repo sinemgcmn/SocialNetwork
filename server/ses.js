@@ -32,6 +32,3 @@ exports.sendEmail = (to, body, subj) =>
             },
         })
         .promise();
-
-// Data: "Here is your security code to reset your password!",
-// Subject "Here is your security code to reset your password. Please bear in mind that you have to use this code in 10 minutes!",

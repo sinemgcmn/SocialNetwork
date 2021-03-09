@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "./axios";
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default class ResetPassword extends React.Component {
     constructor(props) {
@@ -8,6 +8,8 @@ export default class ResetPassword extends React.Component {
         this.state = {
             error: false,
             step: 1,
+            // step: 2,
+            // step: 3,
         };
     }
 
@@ -17,7 +19,7 @@ export default class ResetPassword extends React.Component {
             .then(({ data }) => {
                 console.log("data:", data);
                 if (data.success === true) {
-                    location.replace("/");
+                    location.replace("/reset");
                 } else if (data.success === false) {
                     this.setState({
                         error: true,
@@ -50,20 +52,49 @@ export default class ResetPassword extends React.Component {
                         information!
                     </h2>
                 )}
-                <div className="userForm">
-                    <input
-                        className="regInputs"
-                        name="email"
-                        placeholder="email"
-                        onChange={(e) => this.handleChange(e)}
-                    />
-                    <button
-                        className="regButton"
-                        onClick={() => this.handleClick()}
-                    >
-                        Reset Password
-                    </button>
-                </div>
+                {this.state.step == 1 && (
+                    <div className="userForm">
+                        <input
+                            className="regInputs"
+                            name="email"
+                            placeholder="email"
+                            onChange={(e) => this.handleChange(e)}
+                        />
+                        <button
+                            className="regButton"
+                            onClick={() => this.handleClick()}
+                        >
+                            Reset Password
+                        </button>
+                    </div>
+                )}
+                {this.state.step == 2 && (
+                    <div className="userForm">
+                        <input
+                            className="regInputs"
+                            name="code"
+                            placeholder="security code"
+                            onChange={(e) => this.handleChange(e)}
+                        />
+                        <input
+                            className="regInputs"
+                            name="new passsword"
+                            placeholder="new passsword"
+                            onChange={(e) => this.handleChange(e)}
+                        />
+                        <button
+                            className="regButton"
+                            onClick={() => this.handleClick()}
+                        >
+                            Submit
+                        </button>
+                    </div>
+                )}
+                {this.state.step == 3 && (
+                    <Link className="loginMsg" to="/login">
+                        You can now log in with your new password!
+                    </Link>
+                )}
             </div>
         );
     }

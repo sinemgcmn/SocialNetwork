@@ -115,12 +115,15 @@ app.post("/reset", (req, res) => {
                 const secretCode = cryptoRandomString({ length: 6 });
                 // console.log(secretCode);
                 db.userInputForReset(email, secretCode).then(({ rows }) => {
-                    console.log(rows);
+                    // console.log(rows);
                     ses.sendEmail(
                         email,
                         secretCode,
                         "Here is your security code to reset your password!"
                     );
+                    res.json({
+                        success: true,
+                    });
                 });
             }
         });
