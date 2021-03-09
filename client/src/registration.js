@@ -100,3 +100,38 @@ export default class Registration extends React.Component {
         );
     }
 }
+
+// {
+//     /* step2 */
+// }
+// <div className="userForm">
+//     <input
+//         className="regInputs"
+//         name="code"
+//         placeholder="security code"
+//         onChange={(e) => this.handleChange(e)}
+//     />
+//     <input
+//         className="regInputs"
+//         name="new passsword"
+//         placeholder="new passsword"
+//         onChange={(e) => this.handleChange(e)}
+//     />
+//     <button className="regButton" onClick={() => this.handleClick()}>
+//         Submit
+//     </button>
+// </div>;
+
+// {
+//     /* step3 */
+// }
+// {
+//     !this.state.error && (
+//         <h2 className="errorMsg">
+//             Your password has been successfully changed!
+//         </h2>
+//     );
+// }
+// <Link className="loginMsg" to="/login">
+//     You can now log in with your new password!
+// </Link>;

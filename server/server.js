@@ -4,6 +4,7 @@ const compression = require("compression");
 const path = require("path");
 const db = require("./db");
 const { hash, compare } = require("./utils/bc.js");
+const cryptoRandomString = require("crypto-random-string");
 const cookieSession = require("cookie-session");
 const csurf = require("csurf");
 
@@ -88,6 +89,32 @@ app.post("/login", (req, res) => {
                             success: false,
                         });
                     }
+                });
+            }
+        });
+    } else {
+        res.json({
+            success: false,
+        });
+    }
+});
+
+app.post("/reset", (req, res) => {
+    const { email } = req.body;
+    if (email) {
+        db.userInputForLog(email).then(({ rows }) => {
+            // console.log(rows);
+            if (rows.length === 0) {
+                res.json({
+                    success: false,
+                });
+            } else if (rows) {
+                // console.log("it is matched");
+                // console.log(rows);
+                const secretCode = cryptoRandomString({ length: 6 });
+                // console.log(secretCode);
+                db.userInputForReset(email, secretCode).then(({ rows }) => {
+                    console.log(rows);
                 });
             }
         });
