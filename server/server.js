@@ -3,6 +3,7 @@ const app = express();
 const compression = require("compression");
 const path = require("path");
 const db = require("./db");
+const ses = require("./ses");
 const { hash, compare } = require("./utils/bc.js");
 const cryptoRandomString = require("crypto-random-string");
 const cookieSession = require("cookie-session");
@@ -115,6 +116,11 @@ app.post("/reset", (req, res) => {
                 // console.log(secretCode);
                 db.userInputForReset(email, secretCode).then(({ rows }) => {
                     console.log(rows);
+                    ses.sendEmail(
+                        email,
+                        secretCode,
+                        "Here is your security code to reset your password!"
+                    );
                 });
             }
         });
