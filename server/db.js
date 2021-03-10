@@ -39,3 +39,35 @@ module.exports.userInputForReset = (email, secretCode) => {
     const params = [email, secretCode];
     return db.query(q, params);
 };
+
+module.exports.userCodeForReset = (secretCode) => {
+    const q = `
+        SELECT secret_code 
+        FROM reset_codes  
+        WHERE CURRENT_TIMESTAMP - created_at < INTERVAL '10 minutes';
+    `;
+
+    const params = secretCode;
+    return db.query(q, params);
+};
+
+module.exports.updatePassword = (email, password) => {
+    const q = `
+        UPDATE users
+        SET password_hash = $2
+        WHERE email = $1;
+    `;
+    const params = [email, password];
+    return db.query(q, params);
+};
+
+module.exports.selectFromResetCode = (secretCode) => {
+    const q = `
+        SELECT email
+        FROM reset_codes  
+        WHERE secret_code = '${secretCode}'
+    `;
+
+    const params = secretCode;
+    return db.query(q, params);
+};

@@ -100,7 +100,7 @@ app.post("/login", (req, res) => {
     }
 });
 
-app.post("/reset", (req, res) => {
+app.post("/reset/start", (req, res) => {
     const { email } = req.body;
     if (email) {
         db.userInputForLog(email).then(({ rows }) => {
@@ -132,6 +132,38 @@ app.post("/reset", (req, res) => {
             success: false,
         });
     }
+});
+
+app.post("/reset/verify", (req, res) => {
+    const { secretCode, password, email } = req.body;
+    // console.log("req.body.code", req.body.code);
+    db.userCodeForReset(secretCode).then(({ rows }) => {
+        // console.log("rows:", rows);
+        if (rows.length === 0) {
+            res.json({
+                success: false,
+            });
+        } else if (rows) {
+            if (req.body.code === rows[0].secret_code) {
+                // console.log("rows[0].secret_code", rows[0].secret_code);
+                // console.log("req.body.code", req.body.code);
+                // console.log("i am true");
+                hash(req.body.password).then((hashedPassword) => {
+                    // console.log(req.body.password);
+                    // console.log(hashedPassword);
+                    // console.log(email);
+                    db.selectFromResetCode(req.body.code).then(({ rows }) => {
+                        // console.log("selectFromResetCode", rows);
+                        db.updatePassword(rows[0].email, hashedPassword);
+                        console.log("I am hashed");
+                        res.json({
+                            success: true,
+                        });
+                    });
+                });
+            }
+        }
+    });
 });
 
 app.get("*", function (req, res) {

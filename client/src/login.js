@@ -83,7 +83,7 @@ export default class Login extends React.Component {
                 <Link className="loginMsg" to="/">
                     Create new account
                 </Link>
-                <Link className="loginMsg" to="/reset">
+                <Link className="loginMsg" to="/reset/start">
                     Reset your password
                 </Link>
             </div>
