@@ -4,6 +4,31 @@ const compression = require("compression");
 const path = require("path");
 const db = require("./db");
 const ses = require("./ses");
+const multer = require("multer");
+const uidSafe = require("uid-safe");
+const s3 = require("./s3");
+const config = require("./config");
+
+const diskStorage = multer.diskStorage({
+    destination: function (req, file, callback) {
+        callback(null, __dirname + "/uploads");
+    },
+    filename: function (req, file, callback) {
+        uidSafe(24).then(function (uid) {
+            callback(null, uid + path.extname(file.originalname));
+        });
+    },
+});
+
+const uploader = multer({
+    storage: diskStorage,
+    limits: {
+        fileSize: 2097152,
+    },
+});
+
+app.use(express.static("public"));
+
 const { hash, compare } = require("./utils/bc.js");
 const cryptoRandomString = require("crypto-random-string");
 const cookieSession = require("cookie-session");
@@ -164,6 +189,21 @@ app.post("/reset/verify", (req, res) => {
             }
         }
     });
+});
+
+app.get("/user", (req, res) => {
+    const userId = req.session.userId;
+    console.log("req.session.userId:", userId);
+    // console.log("userId:", userId);
+    if (req.session.userId) {
+        // console.log("I am here");
+        db.selectUserInputForPic(userId).then(({ rows }) => {
+            console.log(rows);
+            res.json({
+                success: rows,
+            });
+        });
+    }
 });
 
 app.get("*", function (req, res) {

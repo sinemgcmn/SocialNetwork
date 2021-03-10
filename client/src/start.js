@@ -1,15 +1,17 @@
 import ReactDOM from "react-dom";
 import Welcome from "./welcome";
-import Header from "./header";
+// import Logo from "./logo";
+import App from "./app";
 import Footer from "./footer";
 
 let elem;
-if (location.pathname === "/welcome") {
-    elem = <Welcome />;
+const userIsLoggedIn = location.pathname != "/welcome";
+
+if (userIsLoggedIn) {
+    elem = <App />;
 } else {
-    elem = <p>my main page of website</p>;
+    elem = <Welcome />;
 }
 
 ReactDOM.render(elem, document.querySelector("main"));
-ReactDOM.render(<Header />, document.querySelector("header"));
 ReactDOM.render(<Footer />, document.querySelector("footer"));

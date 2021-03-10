@@ -5,7 +5,7 @@ const db = spicedPg(
         "postgres:postgres:postgres@localhost:5432/social"
 );
 
-////////////PART-1////////////////////////
+////////////PART-1//////REG AND LOG//////////////////
 
 module.exports.userInputForReg = (first, last, email, password) => {
     const q = `
@@ -28,7 +28,7 @@ module.exports.userInputForLog = (email) => {
     return db.query(q, params);
 };
 
-////////////PART-3////////////////////////
+////////////PART-3//////RESET//////////////////
 
 module.exports.userInputForReset = (email, secretCode) => {
     const q = `
@@ -69,5 +69,18 @@ module.exports.selectFromResetCode = (secretCode) => {
     `;
 
     const params = secretCode;
+    return db.query(q, params);
+};
+
+////////////PART-4////////PROFILE PIC////////////////
+
+module.exports.selectUserInputForPic = (userId) => {
+    const q = `
+        SELECT first_name, last_name, imageUrl, id
+        FROM users
+        WHERE id = ${userId}
+    `;
+
+    const params = userId;
     return db.query(q, params);
 };
