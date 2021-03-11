@@ -1,11 +1,11 @@
 const express = require("express");
 const app = express();
 const compression = require("compression");
-const path = require("path");
 const db = require("./db");
 const ses = require("./ses");
 const multer = require("multer");
 const uidSafe = require("uid-safe");
+const path = require("path");
 const s3 = require("./s3");
 const config = require("./config");
 
@@ -193,17 +193,36 @@ app.post("/reset/verify", (req, res) => {
 
 app.get("/user", (req, res) => {
     const userId = req.session.userId;
-    console.log("req.session.userId:", userId);
+    // console.log("req.session.userId:", userId);
     // console.log("userId:", userId);
     if (req.session.userId) {
         // console.log("I am here");
         db.selectUserInputForPic(userId).then(({ rows }) => {
-            console.log(rows);
+            // console.log(rows);
             res.json({
                 success: rows,
             });
         });
     }
+});
+
+app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
+    const { filename } = req.file;
+    console.log(req.file);
+    const url = config.s3Url + filename;
+    console.log(url);
+    // if (req.file) {
+    //     db.updatePic(url).then(({ rows }) => {
+    //         console.log(rows);
+    //         res.json({
+    //             success: true,
+    //         });
+    //     });
+    // } else {
+    //     res.json({
+    //         success: false,
+    //     });
+    // }
 });
 
 app.get("*", function (req, res) {

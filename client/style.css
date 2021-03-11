@@ -119,3 +119,10 @@ footer {
 .profileName {
     font-size: 22px;
 }
+
+.uploader-text {
+    border: 2px yellow solid;
+    background-color: green;
+    width: 400px;
+    height: 150px;
+}

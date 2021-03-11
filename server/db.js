@@ -84,3 +84,13 @@ module.exports.selectUserInputForPic = (userId) => {
     const params = userId;
     return db.query(q, params);
 };
+
+module.exports.updatePic = (userId, url) => {
+    const q = `
+        UPDATE users
+        SET imageurl = $2
+        WHERE id = ${userId}
+    `;
+    const params = [userId, url];
+    return db.query(q, params);
+};

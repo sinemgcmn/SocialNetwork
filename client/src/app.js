@@ -10,10 +10,12 @@ export default class App extends Component {
         this.state = {
             uploaderIsVisible: false,
         };
+        this.updateImgUrl = this.updateImgUrl.bind(this);
+        this.toggleUploader = this.toggleUploader.bind(this);
     }
 
     componentDidMount() {
-        console.log("App mounted");
+        // console.log("App mounted");
         axios
             .get("/user", this.state)
             .then(({ data }) => {
@@ -35,8 +37,9 @@ export default class App extends Component {
         });
     }
 
-    methodInApp(arg) {
-        console.log("Im running in App!!! and my argument is: ", arg);
+    updateImgUrl(url) {
+        console.log("Im running in App!!! and my argument is: ", url);
+        this.setState({ imageurl: url });
     }
 
     render() {
@@ -47,16 +50,13 @@ export default class App extends Component {
                     first={this.state.first_name}
                     last={this.state.last_name}
                     imageUrl={this.state.imageurl}
+                    toggleUploader={this.toggleUploader}
                 />
-
-                <h2 onClick={() => this.toggleUploader()}>
-                    Click here!! Changing uploaderIsVisible state with a
-                    method!!
-                </h2>
 
                 {this.state.uploaderIsVisible && (
                     <Uploader
-                        methodInApp={this.methodInApp}
+                        updateImgUrl={() => this.updateImgUrl}
+                        handleChange={() => this.handleChange}
                         // methodInApp={(arg) => this.methodInApp(arg)}
                         toggleModal={() => this.toggleModal()}
                     />
