@@ -14,34 +14,41 @@ export default class Uploader extends Component {
     }
 
     handleChange(e) {
-        this.setState(
-            {
-                [e.target.name]: e.target.value,
-            },
-            () => console.log("this state after setState:", this.state)
-        );
+        this.setState({
+            [e.target.name]: e.target.files[0],
+        });
     }
 
-    updateImgUrl(url) {
+    updateImgUrlUploader() {
         var formData = new FormData();
-        formData.append("file", this.file);
+        formData.append("file", this.state.file);
         axios
             .post("/upload", formData)
-            .then(function (response) {
-                console.log("response");
-                console.log("response from post req: ", response);
+            .then(({ data }) => {
+                console.log("datafromuploader:", data);
+                if (data.success) {
+                    console.log("data", data);
+                    this.props.updateImgUrlApp(data.imageUrl);
+                    this.props.toggleUploader();
+                } else {
+                    console.log("uploadImage error");
+                }
             })
+
             .catch(function (err) {
                 console.log("error from post req", err);
             });
-        this.props.updateImgUrl(url);
+    }
+
+    toggleUploaderMod() {
+        this.props.toggleUploader();
     }
 
     render() {
         return (
             <div>
                 <div className="uploader-text">
-                    <h1 onClick={() => this.toggleUploader()}>X</h1>
+                    <h1 onClick={() => this.toggleUploaderMod()}>X</h1>
                     <h2>Want to change your image?</h2>
                     <form>
                         <input
@@ -52,7 +59,7 @@ export default class Uploader extends Component {
                         />
                         <button
                             className="regButton"
-                            onClick={(e) => this.updateImgUrl(e)}
+                            onClick={(e) => this.updateImgUrlUploader(e)}
                         >
                             Upload
                         </button>

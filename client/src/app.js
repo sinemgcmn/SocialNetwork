@@ -3,26 +3,32 @@ import axios from "./axios";
 import Logo from "./logo";
 import Presentational from "./presentational";
 import Uploader from "./uploader";
+// import {Browser Router}
 
 export default class App extends Component {
     constructor() {
         super();
         this.state = {
+            first: "",
+            last: "",
+            imageUrl: "",
             uploaderIsVisible: false,
         };
-        this.updateImgUrl = this.updateImgUrl.bind(this);
-        this.toggleUploader = this.toggleUploader.bind(this);
     }
 
     componentDidMount() {
         // console.log("App mounted");
         axios
-            .get("/user", this.state)
+            .get("/user")
             .then(({ data }) => {
-                // console.log("mountdata:", data);
-                if (data.success) {
-                    this.setState(data.success[0]);
-                    // console.log("data.success:", data.success[0]);
+                // console.log("data", data);
+                // console.log("data.success[0]", data.success[0]);
+                if (data.success[0]) {
+                    this.setState({
+                        first: data.success[0].first_name,
+                        last: data.success[0].last_name,
+                        imageUrl: data.success[0].imageurl,
+                    });
                 }
             })
             .catch((err) => {
@@ -31,37 +37,41 @@ export default class App extends Component {
     }
 
     toggleUploader() {
-        console.log("toggleModal function is running!!!");
+        // console.log("toggleModal function is running!!!");
         this.setState({
             uploaderIsVisible: !this.state.uploaderIsVisible,
         });
     }
 
-    updateImgUrl(url) {
-        console.log("Im running in App!!! and my argument is: ", url);
-        this.setState({ imageurl: url });
+    updateImgUrlApp(imageUrl) {
+        console.log("Im running in App!!! and my argument is: ", imageUrl);
+        this.setState({ imageUrl: imageUrl });
     }
 
     render() {
         return (
-            <div>
-                <Logo />
-                <Presentational
-                    first={this.state.first_name}
-                    last={this.state.last_name}
-                    imageUrl={this.state.imageurl}
-                    toggleUploader={this.toggleUploader}
-                />
-
-                {this.state.uploaderIsVisible && (
-                    <Uploader
-                        updateImgUrl={() => this.updateImgUrl}
-                        handleChange={() => this.handleChange}
-                        // methodInApp={(arg) => this.methodInApp(arg)}
-                        toggleModal={() => this.toggleModal()}
+            // <BrowserRouter>
+                <div>
+                    <Logo />
+                    <Presentational
+                        first={this.state.first}
+                        last={this.state.last}
+                        imageUrl={this.state.imageUrl}
+                        toggleUploader={() => this.toggleUploader()}
                     />
-                )}
-            </div>
+
+                    {/* <Route exact path="/" component={Profile}/> //this is only if you do not passs any props// */}
+<Route exact path="/" component={Profile}/>
+                    {this.state.uploaderIsVisible && (
+                        <Uploader
+                            updateImgUrlApp={(imageUrl) =>
+                                this.updateImgUrlApp(imageUrl)
+                            }
+                            toggleUploader={() => this.toggleUploader()}
+                        />
+                    )}
+                </div>
+            {/* </BrowserRouter> */}
         );
     }
 }

@@ -14,7 +14,7 @@ export default function Presentational({
                     {first} {last}
                 </h1>
                 <img
-                    onClick={() => toggleUploader()}
+                    onClick={toggleUploader}
                     className="profile-pic"
                     src={imageUrl}
                 />

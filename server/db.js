@@ -65,7 +65,7 @@ module.exports.selectFromResetCode = (secretCode) => {
     const q = `
         SELECT email
         FROM reset_codes  
-        WHERE secret_code = '${secretCode}'
+        WHERE secret_code = '${secretCode}';
     `;
 
     const params = secretCode;
@@ -78,7 +78,7 @@ module.exports.selectUserInputForPic = (userId) => {
     const q = `
         SELECT first_name, last_name, imageUrl, id
         FROM users
-        WHERE id = ${userId}
+        WHERE id = ${userId};
     `;
 
     const params = userId;
@@ -89,7 +89,7 @@ module.exports.updatePic = (userId, url) => {
     const q = `
         UPDATE users
         SET imageurl = $2
-        WHERE id = ${userId}
+        WHERE id = $1;
     `;
     const params = [userId, url];
     return db.query(q, params);

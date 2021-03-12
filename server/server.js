@@ -207,22 +207,25 @@ app.get("/user", (req, res) => {
 });
 
 app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
+    const userId = req.session.userId;
     const { filename } = req.file;
-    console.log(req.file);
     const url = config.s3Url + filename;
-    console.log(url);
-    // if (req.file) {
-    //     db.updatePic(url).then(({ rows }) => {
-    //         console.log(rows);
-    //         res.json({
-    //             success: true,
-    //         });
-    //     });
-    // } else {
-    //     res.json({
-    //         success: false,
-    //     });
-    // }
+    if (req.session.userId) {
+        db.selectUserInputForPic(userId).then(({ rows }) => {
+            // console.log("selectUserInputForPic", rows[0].id);
+            if (req.file) {
+                db.updatePic(rows[0].id, url);
+                // console.log("rowupdatePics:", rows);
+                res.json({
+                    success: true,
+                });
+            } else {
+                res.json({
+                    success: false,
+                });
+            }
+        });
+    }
 });
 
 app.get("*", function (req, res) {
