@@ -4,6 +4,7 @@ import Logo from "./logo";
 import Presentational from "./presentational";
 import Uploader from "./uploader";
 // import {Browser Router}
+// import OtherProfile from
 
 export default class App extends Component {
     constructor() {
@@ -51,27 +52,40 @@ export default class App extends Component {
     render() {
         return (
             // <BrowserRouter>
-                <div>
-                    <Logo />
-                    <Presentational
-                        first={this.state.first}
-                        last={this.state.last}
-                        imageUrl={this.state.imageUrl}
+            <div>
+                <Logo />
+                <Presentational
+                    first={this.state.first}
+                    last={this.state.last}
+                    imageUrl={this.state.imageUrl}
+                    toggleUploader={() => this.toggleUploader()}
+                />
+
+                {/* <Route exact path="/" component={Profile}/> //this is only if you do not passs any props// */}
+                {/* <Route exact path="/" render={() =>{
+                            Profile....
+                    }}> */}
+
+                {/* <Route path='/user/:id' 
+                    render={(props) => (
+                    <OtherProfile
+                    key={props.match.url}
+                    match={props.match}
+                    history={props.history}
+                    />
+                    )} 
+                    /> */}
+
+                {this.state.uploaderIsVisible && (
+                    <Uploader
+                        updateImgUrlApp={(imageUrl) =>
+                            this.updateImgUrlApp(imageUrl)
+                        }
                         toggleUploader={() => this.toggleUploader()}
                     />
-
-                    {/* <Route exact path="/" component={Profile}/> //this is only if you do not passs any props// */}
-<Route exact path="/" component={Profile}/>
-                    {this.state.uploaderIsVisible && (
-                        <Uploader
-                            updateImgUrlApp={(imageUrl) =>
-                                this.updateImgUrlApp(imageUrl)
-                            }
-                            toggleUploader={() => this.toggleUploader()}
-                        />
-                    )}
-                </div>
-            {/* </BrowserRouter> */}
+                )}
+            </div>
+            // /* </BrowserRouter> */
         );
     }
 }

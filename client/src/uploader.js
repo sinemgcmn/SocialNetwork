@@ -26,13 +26,13 @@ export default class Uploader extends Component {
             .post("/upload", formData)
             .then(({ data }) => {
                 console.log("datafromuploader:", data);
-                if (data.success) {
-                    console.log("data", data);
-                    this.props.updateImgUrlApp(data.imageUrl);
-                    this.props.toggleUploader();
-                } else {
-                    console.log("uploadImage error");
-                }
+                // if (data.success) {
+                //     console.log("data", data);
+                this.props.updateImgUrlApp(data.imageurl);
+                this.props.toggleUploader();
+                // // } else {
+                // //     console.log("uploadImage error");
+                // // }
             })
 
             .catch(function (err) {
@@ -50,20 +50,19 @@ export default class Uploader extends Component {
                 <div className="uploader-text">
                     <h1 onClick={() => this.toggleUploaderMod()}>X</h1>
                     <h2>Want to change your image?</h2>
-                    <form>
-                        <input
-                            onChange={(e) => this.handleChange(e)}
-                            type="file"
-                            name="file"
-                            accept="image/*"
-                        />
-                        <button
-                            className="regButton"
-                            onClick={(e) => this.updateImgUrlUploader(e)}
-                        >
-                            Upload
-                        </button>
-                    </form>
+
+                    <input
+                        onChange={(e) => this.handleChange(e)}
+                        type="file"
+                        name="file"
+                        accept="image/*"
+                    />
+                    <button
+                        className="regButton"
+                        onClick={(e) => this.updateImgUrlUploader(e)}
+                    >
+                        Upload
+                    </button>
                 </div>
             </div>
         );

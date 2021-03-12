@@ -89,7 +89,8 @@ module.exports.updatePic = (userId, url) => {
     const q = `
         UPDATE users
         SET imageurl = $2
-        WHERE id = $1;
+        WHERE id = $1
+        RETURNING imageurl;
     `;
     const params = [userId, url];
     return db.query(q, params);

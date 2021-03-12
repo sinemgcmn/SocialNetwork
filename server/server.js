@@ -214,11 +214,11 @@ app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
         db.selectUserInputForPic(userId).then(({ rows }) => {
             // console.log("selectUserInputForPic", rows[0].id);
             if (req.file) {
-                db.updatePic(rows[0].id, url);
-                // console.log("rowupdatePics:", rows);
-                res.json({
-                    success: true,
+                db.updatePic(rows[0].id, url).then((result) => {
+                    // console.log(result.rows);
+                    res.json(result.rows[0]);
                 });
+                // console.log("rowupdatePics:", rows);
             } else {
                 res.json({
                     success: false,

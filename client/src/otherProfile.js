@@ -7,6 +7,8 @@ export default class OtherProfile extends Component {
         this.state = {};
     }
 
+    componentDidMount() {}
+
     render() {
         return (
             <div>
