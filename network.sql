@@ -5,6 +5,7 @@ CREATE TABLE users (
     id            SERIAL PRIMARY KEY,
     first_name    VARCHAR NOT NULL CHECK (first_name <> ''),
     last_name     VARCHAR NOT NULL CHECK (last_name <> ''),
+    bio           VARCHAR,
     email         VARCHAR NOT NULL UNIQUE CHECK (email <> ''),
     password_hash VARCHAR NOT NULL CHECK (password_hash <> ''),
     imageUrl      VARCHAR,

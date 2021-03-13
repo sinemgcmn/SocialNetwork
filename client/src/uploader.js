@@ -26,13 +26,10 @@ export default class Uploader extends Component {
             .post("/upload", formData)
             .then(({ data }) => {
                 console.log("datafromuploader:", data);
-                // if (data.success) {
-                //     console.log("data", data);
+
                 this.props.updateImgUrlApp(data.imageurl);
                 this.props.toggleUploader();
-                // // } else {
-                // //     console.log("uploadImage error");
-                // // }
+                // this.props.updateBio();
             })
 
             .catch(function (err) {
@@ -42,6 +39,11 @@ export default class Uploader extends Component {
 
     toggleUploaderMod() {
         this.props.toggleUploader();
+    }
+
+    updateBioMod() {
+        console.log("uploadBioMod");
+        this.props.updateBio();
     }
 
     render() {

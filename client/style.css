@@ -1,7 +1,7 @@
 * {
     box-sizing: border-box;
     margin: 0;
-    color: white;
+    color: black;
     font-size: 18px;
     font-weight: 100;
 }
@@ -9,20 +9,20 @@
 body {
     display: grid;
     min-height: 100vh;
-    grid-template-rows: 50px 1fr 40px;
+    grid-template-rows: 100px 1fr 40px;
 }
 
 /* essentials */
 
 header {
-    background-color: rgb(170, 80, 255);
+    background-color: rgba(0, 0, 0, 0.856);
 }
 
 .headerTop {
     font-size: 80px;
     letter-spacing: 30px;
     text-align: center;
-    color: rgb(14, 255, 219);
+    color: rgb(141, 0, 0);
 }
 
 .headerBottom {
@@ -34,15 +34,16 @@ header {
 }
 
 main {
-    background-image: url("coolcat.jpg");
+    background-image: url("main.jpeg");
     background-position: center;
+    background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
-    background-color: rgb(0, 0, 0);
+    background-color: white;
 }
 
 footer {
-    background-color: rgb(170, 80, 255);
+    background-color: rgb(0, 0, 0, 0.856);
     color: white;
     font-style: italic;
 }
@@ -113,6 +114,12 @@ footer {
 .profile-pic {
     width: 75px;
     height: 75px;
+    margin-right: 20px;
+}
+
+.profile-big {
+    width: 300px;
+    height: 300px;
     margin-right: 20px;
 }
 

@@ -76,7 +76,7 @@ module.exports.selectFromResetCode = (secretCode) => {
 
 module.exports.selectUserInputForPic = (userId) => {
     const q = `
-        SELECT first_name, last_name, imageUrl, id
+        SELECT first_name, last_name, imageUrl, bio, id
         FROM users
         WHERE id = ${userId};
     `;
@@ -93,5 +93,14 @@ module.exports.updatePic = (userId, url) => {
         RETURNING imageurl;
     `;
     const params = [userId, url];
+    return db.query(q, params);
+};
+module.exports.updateBioInfo = (userId, bio) => {
+    const q = `
+        UPDATE users
+        SET bio = "$2"
+        WHERE id = $1;
+    `;
+    const params = [userId, bio];
     return db.query(q, params);
 };
