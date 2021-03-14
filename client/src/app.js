@@ -69,6 +69,7 @@ export default class App extends Component {
                             last={this.state.last}
                             imageUrl={this.state.imageUrl}
                             toggleUploader={() => this.toggleUploader()}
+                            classForImgSmall="profile-pic"
                         />
 
                         <Profile
