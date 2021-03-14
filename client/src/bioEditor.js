@@ -75,20 +75,19 @@ export default class BioEditor extends React.Component {
                 )}
 
                 {this.state.editModeIsOn && (
-                    <textarea
-                        onChange={(e) => this.handleChange(e)}
-                        defaultValue={this.props.bio}
-                    />
-                )}
-
-                {this.state.editModeIsOn && (
-                    <button
-                        className="regButton"
-                        onChange={(e) => this.handleChange(e)}
-                        onClick={() => this.updateBioinEditor()}
-                    >
-                        Save
-                    </button>
+                    <div>
+                        <textarea
+                            onChange={(e) => this.handleChange(e)}
+                            defaultValue={this.props.bio}
+                        />
+                        <button
+                            className="regButton"
+                            onChange={(e) => this.handleChange(e)}
+                            onClick={() => this.updateBioinEditor()}
+                        >
+                            Save
+                        </button>
+                    </div>
                 )}
             </>
         );

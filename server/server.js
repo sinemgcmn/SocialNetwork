@@ -191,7 +191,7 @@ app.post("/reset/verify", (req, res) => {
     });
 });
 
-app.get("/user", (req, res) => {
+app.get("/api/user", (req, res) => {
     const userId = req.session.userId;
     // console.log("req.session.userId:", userId);
     // console.log("userId:", userId);

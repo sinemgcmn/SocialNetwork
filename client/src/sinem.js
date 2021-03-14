@@ -1,11 +1,10 @@
 import { Component } from "react";
+import { BrowserRouter } from "react-router-dom";
 import axios from "./axios";
-// import Logo from "./logo";
 import Presentational from "./presentational";
 import Uploader from "./uploader";
 import Profile from "./profile";
-// import {Browser Router}
-// import OtherProfile from
+import OtherProfile from "/otherProfile";
 
 export default class App extends Component {
     constructor() {
@@ -67,12 +66,12 @@ export default class App extends Component {
                     toggleUploader={() => this.toggleUploader()}
                 />
 
-                {/* <Route exact path="/" component={Profile}/> //this is only if you do not passs any props// */}
-                {/* <Route exact path="/" render={() =>{
+              
+                <Route exact path="/" render={() =>{
                             Profile....
-                    }}> */}
+                    }}> 
 
-                {/* <Route path='/user/:id' 
+             <Route path='/user/:id' 
                     render={(props) => (
                     <OtherProfile
                     key={props.match.url}
@@ -80,7 +79,7 @@ export default class App extends Component {
                     history={props.history}
                     />
                     )} 
-                    /> */}
+                    /> 
 
                 {this.state.uploaderIsVisible && (
                     <Uploader
