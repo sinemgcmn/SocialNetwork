@@ -230,14 +230,13 @@ app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
 
 app.post("/bio", (req, res) => {
     console.log("I am coming from server");
+    const { bio } = req.body;
+    console.log(req.body);
     const userId = req.session.userId;
     if (req.session.userId) {
-        db.selectUserInputForPic(userId).then(({ rows }) => {
-            db.updateBioInfo(rows[0].bio);
-            console.log("I am bio");
-            res.json({
-                success: true,
-            });
+        db.updateBioInfo(userId, bio);
+        res.json({
+            success: true,
         });
     } else {
         res.json({

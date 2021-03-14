@@ -12,6 +12,7 @@ export default class App extends Component {
             last: "",
             imageUrl: "",
             bio: "",
+            id: "",
             uploaderIsVisible: false,
         };
     }
@@ -20,11 +21,14 @@ export default class App extends Component {
         axios
             .get("/user")
             .then(({ data }) => {
+                console.log("app", data);
                 if (data.success[0]) {
                     this.setState({
                         first: data.success[0].first_name,
                         last: data.success[0].last_name,
                         imageUrl: data.success[0].imageurl,
+                        bio: data.success[0].bio,
+                        id: data.success[0].id,
                     });
                 }
             })
@@ -58,7 +62,9 @@ export default class App extends Component {
                     imageUrl={this.state.imageUrl}
                     toggleUploader={() => this.toggleUploader()}
                 />
+
                 <Profile
+                    id={this.state.id}
                     first={this.state.first}
                     last={this.state.last}
                     imageUrl={this.state.imageUrl}

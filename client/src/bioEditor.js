@@ -1,7 +1,7 @@
-import React from "react";
 import axios from "./axios";
+import { Component } from "react";
 
-export default class App extends React.Component {
+export default class BioEditor extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -14,7 +14,7 @@ export default class App extends React.Component {
 
     componentDidMount() {
         // console.log("grandchild just mounted");
-        // console.log("props in grandchild", this.props);
+        console.log("props in grandchild", this.props);
         if (this.props.bio) {
             this.setState({
                 btnTxt: "edit",
@@ -27,22 +27,25 @@ export default class App extends React.Component {
     }
 
     updateBioinEditor() {
-        axios
-            .post("/bio")
-            .then(({ data }) => {
-                console.log("datafromeditor:", data);
-                this.props.updateBio(data.bio);
-            })
-
-            .catch(function (err) {
-                console.log("error from post req", err);
-            });
+        console.log(this.state.bioDraft);
+        axios.post("/bio", this.state.bioDraft).then((response) => {
+            console.log("datafromupdateBioinEditor:", response);
+            if (response.data.success) {
+                this.setState({
+                    bio: this.state.bioDraft,
+                });
+                this.props.updateBio(this.state.bioDraft);
+            }
+        });
     }
 
     handleChange(e) {
-        this.setState({
-            [e.target.name]: e.target.value,
-        });
+        this.setState(
+            {
+                bioDraft: e.target.value,
+            },
+            () => console.log("this state after setState:", this.state)
+        );
     }
 
     toggleBioEditor() {
@@ -54,13 +57,11 @@ export default class App extends React.Component {
     render() {
         return (
             <>
-                {!this.props.bio && (
-                    <button className="regButton">{this.state.btnTxt}</button>
-                )}
-
-                {this.props.bio && (
+                <h2>{this.props.bio}</h2>
+                {!this.state.editModeIsOn && (
                     <button
                         onClick={() => this.toggleBioEditor()}
+                        onChange={(e) => this.handleChange(e)}
                         className="regButton"
                     >
                         {this.state.btnTxt}
@@ -73,23 +74,17 @@ export default class App extends React.Component {
                         defaultValue={this.props.bio}
                     />
                 )}
+
+                {this.state.editModeIsOn && (
+                    <button
+                        className="regButton"
+                        onChange={(e) => this.handleChange(e)}
+                        onClick={(e) => this.updateBioinEditor(e)}
+                    >
+                        Save
+                    </button>
+                )}
             </>
         );
     }
 }
-
-// {
-//     /* {
-//                     (this.state.editModeIsOn && (
-//                         <textarea defaultValue={this.props.bio} />
-//                     ),
-//                     (
-//                         <button
-//                             className="regButton"
-//                             onClick={(e) => this.updateBioinEditor(e)}
-//                         >
-//                             Save
-//                         </button>
-//                     ))
-//                 } */
-// }

@@ -95,10 +95,11 @@ module.exports.updatePic = (userId, url) => {
     const params = [userId, url];
     return db.query(q, params);
 };
+
 module.exports.updateBioInfo = (userId, bio) => {
     const q = `
         UPDATE users
-        SET bio = "$2"
+        SET bio = $2
         WHERE id = $1;
     `;
     const params = [userId, bio];

@@ -12,7 +12,10 @@ export default function Profile(props) {
                 imageUrl={props.imageUrl}
                 toggleUploader={props.toggleUploader}
             />
-            <BioEditor bio={props.bio} updateBio={props.updateBio} />
+            <BioEditor
+                bio={props.bio}
+                updateBio={(bio) => props.updateBio(bio)}
+            />
         </>
     );
 }

@@ -29,7 +29,6 @@ export default class Uploader extends Component {
 
                 this.props.updateImgUrlApp(data.imageurl);
                 this.props.toggleUploader();
-                // this.props.updateBio();
             })
 
             .catch(function (err) {
@@ -39,11 +38,6 @@ export default class Uploader extends Component {
 
     toggleUploaderMod() {
         this.props.toggleUploader();
-    }
-
-    updateBioMod() {
-        console.log("uploadBioMod");
-        this.props.updateBio();
     }
 
     render() {
