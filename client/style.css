@@ -9,7 +9,7 @@
 body {
     display: grid;
     min-height: 100vh;
-    grid-template-rows: 150px 1fr 40px;
+    grid-template-rows: 130px 1fr 40px;
 }
 
 /* essentials */
@@ -18,18 +18,25 @@ header {
     background-color: black;
 }
 
+.headerPart {
+    display: flex;
+    justify-content: center;
+}
+
+.headerWriting {
+    margin-top: 20px;
+}
+
 .headerTop {
-    font-size: 50px;
-    letter-spacing: 30px;
-    text-align: center;
+    font-size: 45px;
+    letter-spacing: 45px;
     color: white;
 }
 
 .headerBottom {
-    font-size: 20px;
+    font-size: 16px;
     font-style: italic;
     letter-spacing: 6px;
-    text-align: center;
     color: white;
 }
 
@@ -51,8 +58,6 @@ footer {
 .logo {
     width: 50px;
     height: 50px;
-    /* margin-left: 15px;
-    margin-top: 5px; */
 }
 
 /* Main Parts */

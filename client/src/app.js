@@ -14,6 +14,7 @@ export default class App extends Component {
             bio: "",
             id: "",
             uploaderIsVisible: false,
+            isRequestEnded: false,
         };
         console.log("props in App: ", props);
     }
@@ -30,11 +31,15 @@ export default class App extends Component {
                         imageUrl: data.success[0].imageurl,
                         bio: data.success[0].bio,
                         id: data.success[0].id,
+                        isRequestEnded: true,
                     });
                 }
             })
             .catch((err) => {
                 console.log("err in axios GET/ user:", err);
+                this.setState({
+                    isRequestEnded: true,
+                });
             });
     }
 
@@ -57,24 +62,26 @@ export default class App extends Component {
     render() {
         return (
             <div>
-                <Presentational
-                    first={this.state.first}
-                    last={this.state.last}
-                    imageUrl={this.state.imageUrl}
-                    toggleUploader={() => this.toggleUploader()}
-                    classForImg="profilebig"
-                    classForImgSmall="profile-pic"
-                />
+                {this.state.isRequestEnded && (
+                    <div>
+                        <Presentational
+                            first={this.state.first}
+                            last={this.state.last}
+                            imageUrl={this.state.imageUrl}
+                            toggleUploader={() => this.toggleUploader()}
+                        />
 
-                <Profile
-                    id={this.state.id}
-                    first={this.state.first}
-                    last={this.state.last}
-                    imageUrl={this.state.imageUrl}
-                    toggleUploader={() => this.toggleUploader()}
-                    bio={this.state.bio}
-                    updateBio={() => this.updateBio()}
-                />
+                        <Profile
+                            id={this.state.id}
+                            first={this.state.first}
+                            last={this.state.last}
+                            imageUrl={this.state.imageUrl}
+                            toggleUploader={() => this.toggleUploader()}
+                            bio={this.state.bio}
+                            updateBio={() => this.updateBio()}
+                        />
+                    </div>
+                )}
 
                 {this.state.uploaderIsVisible && (
                     <Uploader

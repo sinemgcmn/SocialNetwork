@@ -33,11 +33,14 @@ export default class BioEditor extends React.Component {
             .then((response) => {
                 console.log("datafromupdateBioinEditor:", response);
                 if (response.data.success) {
-                    this.setState({
-                        bio: this.state.bioDraft,
-                    });
                     this.props.updateBio(this.state.bioDraft);
+                    this.setState({
+                        editModeIsOn: false,
+                    });
                 }
+            })
+            .catch(function (err) {
+                console.log("error from post req", err);
             });
     }
 
@@ -59,7 +62,8 @@ export default class BioEditor extends React.Component {
     render() {
         return (
             <>
-                <h2>{this.props.bio}</h2>
+                <h1>{this.props.bio}</h1>
+
                 {!this.state.editModeIsOn && (
                     <button
                         onClick={() => this.toggleBioEditor()}
