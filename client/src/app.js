@@ -5,8 +5,8 @@ import Uploader from "./uploader";
 import Profile from "./profile";
 
 export default class App extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             first: "",
             last: "",
@@ -15,6 +15,7 @@ export default class App extends Component {
             id: "",
             uploaderIsVisible: false,
         };
+        console.log("props in App: ", props);
     }
 
     componentDidMount() {
@@ -61,6 +62,8 @@ export default class App extends Component {
                     last={this.state.last}
                     imageUrl={this.state.imageUrl}
                     toggleUploader={() => this.toggleUploader()}
+                    classForImg="profilebig"
+                    classForImgSmall="profile-pic"
                 />
 
                 <Profile
@@ -79,7 +82,6 @@ export default class App extends Component {
                             this.updateImgUrlApp(imageUrl)
                         }
                         toggleUploader={() => this.toggleUploader()}
-                        updateBio={(bio) => this.updateBio(bio)}
                     />
                 )}
             </div>

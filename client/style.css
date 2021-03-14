@@ -9,20 +9,20 @@
 body {
     display: grid;
     min-height: 100vh;
-    grid-template-rows: 100px 1fr 40px;
+    grid-template-rows: 150px 1fr 40px;
 }
 
 /* essentials */
 
 header {
-    background-color: rgba(0, 0, 0, 0.856);
+    background-color: black;
 }
 
 .headerTop {
-    font-size: 80px;
+    font-size: 50px;
     letter-spacing: 30px;
     text-align: center;
-    color: rgb(141, 0, 0);
+    color: white;
 }
 
 .headerBottom {
@@ -30,7 +30,7 @@ header {
     font-style: italic;
     letter-spacing: 6px;
     text-align: center;
-    color: rgb(170, 80, 255);
+    color: white;
 }
 
 main {
@@ -43,7 +43,7 @@ main {
 }
 
 footer {
-    background-color: rgb(0, 0, 0, 0.856);
+    background-color: black;
     color: white;
     font-style: italic;
 }
@@ -51,8 +51,8 @@ footer {
 .logo {
     width: 50px;
     height: 50px;
-    margin-left: 15px;
-    margin-top: 5px;
+    /* margin-left: 15px;
+    margin-top: 5px; */
 }
 
 /* Main Parts */
@@ -105,11 +105,11 @@ footer {
     font-size: 20px;
 }
 
-.profile {
+/* .profile {
     float: right;
     display: flex;
     flex-direction: column;
-}
+} */
 
 .profile-pic {
     width: 75px;
@@ -117,10 +117,16 @@ footer {
     margin-right: 20px;
 }
 
-.profile-big {
-    width: 300px;
-    height: 300px;
+.profilebig {
+    float: right;
+    display: flex;
+    flex-direction: column;
     margin-right: 20px;
+}
+
+img {
+    width: 250px;
+    height: 250px;
 }
 
 .profileName {

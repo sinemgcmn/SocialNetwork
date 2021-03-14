@@ -50,10 +50,6 @@ export default class Login extends React.Component {
     render() {
         return (
             <div>
-                <h1 className="headerTop">C.A.T.P.S.T.E.R</h1>
-                <p className="headerBottom">
-                    We Always Celebrate Caturday in Berlin
-                </p>
                 {this.state.error && (
                     <h2 className="errorMsg">
                         Sorry, something went wrong.Please check your

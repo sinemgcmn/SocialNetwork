@@ -230,11 +230,11 @@ app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
 
 app.post("/bio", (req, res) => {
     console.log("I am coming from server");
-    const { bio } = req.body;
+    const { bioDraft } = req.body;
     console.log(req.body);
     const userId = req.session.userId;
     if (req.session.userId) {
-        db.updateBioInfo(userId, bio);
+        db.updateBioInfo(userId, bioDraft);
         res.json({
             success: true,
         });

@@ -3,16 +3,18 @@ export default function Presentational({
     last,
     imageUrl,
     toggleUploader,
+    classForImg,
+    classForImgSmall,
 }) {
     // console.log("props in Presentational: ", props);
 
     imageUrl = imageUrl || "default.jpeg";
     return (
         <div>
-            <div className="profile">
+            <div className={classForImg}>
                 <img
                     onClick={toggleUploader}
-                    className="profile-pic"
+                    className={classForImgSmall}
                     src={imageUrl}
                     alt={`${first + last}`}
                 />

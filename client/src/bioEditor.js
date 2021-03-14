@@ -1,7 +1,7 @@
 import axios from "./axios";
-import { Component } from "react";
+import React from "react";
 
-export default class BioEditor extends Component {
+export default class BioEditor extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -28,15 +28,17 @@ export default class BioEditor extends Component {
 
     updateBioinEditor() {
         console.log(this.state.bioDraft);
-        axios.post("/bio", this.state.bioDraft).then((response) => {
-            console.log("datafromupdateBioinEditor:", response);
-            if (response.data.success) {
-                this.setState({
-                    bio: this.state.bioDraft,
-                });
-                this.props.updateBio(this.state.bioDraft);
-            }
-        });
+        axios
+            .post("/bio", { bioDraft: this.state.bioDraft })
+            .then((response) => {
+                console.log("datafromupdateBioinEditor:", response);
+                if (response.data.success) {
+                    this.setState({
+                        bio: this.state.bioDraft,
+                    });
+                    this.props.updateBio(this.state.bioDraft);
+                }
+            });
     }
 
     handleChange(e) {
@@ -79,7 +81,7 @@ export default class BioEditor extends Component {
                     <button
                         className="regButton"
                         onChange={(e) => this.handleChange(e)}
-                        onClick={(e) => this.updateBioinEditor(e)}
+                        onClick={() => this.updateBioinEditor()}
                     >
                         Save
                     </button>
