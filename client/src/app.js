@@ -74,7 +74,6 @@ export default class App extends Component {
                                 toggleUploader={() => this.toggleUploader()}
                                 classForImgSmall="profile-pic"
                             />
-
                             <Route
                                 exact
                                 path="/"
@@ -92,7 +91,6 @@ export default class App extends Component {
                                     />
                                 )}
                             />
-                            <Route path="/user/:id" component={OtherProfile} />
                         </div>
                     )}
 
@@ -104,6 +102,17 @@ export default class App extends Component {
                             toggleUploader={() => this.toggleUploader()}
                         />
                     )}
+
+                    <Route
+                        path="/user/:id"
+                        render={(props) => (
+                            <OtherProfile
+                                key={props.match.url}
+                                match={props.match}
+                                history={props.history}
+                            />
+                        )}
+                    />
                 </div>
             </BrowserRouter>
         );

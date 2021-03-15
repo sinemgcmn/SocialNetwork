@@ -191,7 +191,7 @@ app.post("/reset/verify", (req, res) => {
     });
 });
 
-app.get("/api/user", (req, res) => {
+app.get("/user", (req, res) => {
     const userId = req.session.userId;
     // console.log("req.session.userId:", userId);
     // console.log("userId:", userId);
@@ -215,7 +215,7 @@ app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
             // console.log("selectUserInputForPic", rows[0].id);
             if (req.file) {
                 db.updatePic(rows[0].id, url).then((result) => {
-                    // console.log(result.rows);
+                    console.log(result.rows);
                     res.json(result.rows[0]);
                 });
                 // console.log("rowupdatePics:", rows);
@@ -229,7 +229,7 @@ app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
 });
 
 app.post("/bio", (req, res) => {
-    console.log("I am coming from server");
+    // console.log("I am coming from server");
     const { bioDraft } = req.body;
     console.log(req.body);
     const userId = req.session.userId;
@@ -241,6 +241,21 @@ app.post("/bio", (req, res) => {
     } else {
         res.json({
             success: false,
+        });
+    }
+});
+
+app.post("/otherUsers", (req, res) => {
+    const userId = req.body.id;
+    if (userId == req.session.userId) {
+        res.json({
+            success: false,
+        });
+    } else {
+        db.selectUserInputForPic(userId).then((result) => {
+            console.log("selectUserInputForPic", result);
+            console.log(result.rows);
+            res.json(result.rows[0]);
         });
     }
 });
