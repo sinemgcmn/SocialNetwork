@@ -96,6 +96,7 @@ module.exports.updatePic = (userId, url) => {
     return db.query(q, params);
 };
 
+////////////PART-5////////BIO////////////////
 module.exports.updateBioInfo = (userId, bio) => {
     const q = `
         UPDATE users
@@ -103,5 +104,28 @@ module.exports.updateBioInfo = (userId, bio) => {
         WHERE id = $1;
     `;
     const params = [userId, bio];
+    return db.query(q, params);
+};
+
+////////////PART-7////////FILTER////////////////
+
+module.exports.resultUsers = () => {
+    const q = `
+        SELECT first_name, last_name, imageUrl, id
+        FROM users
+        ORDER BY id DESC
+        LIMIT 3;
+    `;
+    return db.query(q);
+};
+
+module.exports.filterUsers = (val) => {
+    const q = `
+    SELECT first_name
+    FROM users
+    WHERE first_name ILIKE $1;
+    `[val + "%"];
+
+    const params = val;
     return db.query(q, params);
 };

@@ -5,6 +5,7 @@ import Presentational from "./presentational";
 import Uploader from "./uploader";
 import Profile from "./profile";
 import OtherProfile from "./otherProfile";
+import FindPeople from "./findPeople";
 
 export default class App extends Component {
     constructor(props) {
@@ -107,6 +108,17 @@ export default class App extends Component {
                         path="/user/:id"
                         render={(props) => (
                             <OtherProfile
+                                key={props.match.url}
+                                match={props.match}
+                                history={props.history}
+                            />
+                        )}
+                    />
+
+                    <Route
+                        path="/users"
+                        render={(props) => (
+                            <FindPeople
                                 key={props.match.url}
                                 match={props.match}
                                 history={props.history}

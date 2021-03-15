@@ -160,7 +160,7 @@ app.post("/reset/start", (req, res) => {
 });
 
 app.post("/reset/verify", (req, res) => {
-    const { secretCode, password, email } = req.body;
+    const { secretCode } = req.body;
     // console.log("req.body.code", req.body.code);
     db.userCodeForReset(secretCode).then(({ rows }) => {
         // console.log("rows:", rows);
@@ -258,6 +258,24 @@ app.post("/otherUsers", (req, res) => {
             res.json(result.rows[0]);
         });
     }
+});
+
+app.get("/api/users/most-recent", (req, res) => {
+    db.resultUsers().then(({ rows }) => {
+        console.log(rows);
+        res.json({
+            success: rows,
+        });
+    });
+});
+
+app.get("/api/users/", (req, res) => {
+    db.filterUsers().then(({ rows }) => {
+        console.log(rows);
+        res.json({
+            success: rows,
+        });
+    });
 });
 
 app.get("*", function (req, res) {

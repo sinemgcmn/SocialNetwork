@@ -1,6 +1,7 @@
 import { Component } from "react";
 import axios from "./axios";
-import Logo from "./logo";
+// import { BrowserRouter, Route } from "react-router-dom";
+// import FindPeople from "./findPeople";
 
 export default class OtherProfile extends Component {
     constructor(props) {
