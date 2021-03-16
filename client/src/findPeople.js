@@ -3,29 +3,31 @@ import axios from "./axios";
 
 export default function FindPeople() {
     const [users, setRecentUsers] = useState();
-    // const [val, setVal] = useState();
+    const [recent, setRecent] = useState();
+    const [searchTerm, setVal] = useState();
 
     useEffect(function () {
         axios.get("/api/users/most-recent").then(({ data }) => {
-            console.log("data", data);
-            if (data.success) {
-                setRecentUsers(data);
-            }
+            // console.log("dataformostrecent", data);
+            setRecentUsers(data.success);
         });
     }, []);
 
-    // useEffect(
-    //     function () {
-    //         axios.get("api/users/" + val).then(({ data }) => {
-    //             console.log("data", data);
-    //         });
-    //     },
-    //     [val]
-    // );
+    useEffect(
+        function () {
+            axios.get("/api/users/" + searchTerm).then(({ data }) => {
+                // console.log("searchTerm", searchTerm);
+                // console.log("dataforresult", data);
+                setRecent(data.success);
+            });
+        },
+        [searchTerm]
+    );
 
     return (
         <>
             <h1>Check out who just join!</h1>
+
             {users &&
                 users.map(function (user) {
                     return (
@@ -38,13 +40,22 @@ export default function FindPeople() {
                 })}
 
             <h1>Are you looking for someone in particular</h1>
-
-            {/* <input
-                defaultValue={val}
+            <input
+                defaultValue={searchTerm}
                 onChange={({ target }) => {
                     setVal(target.value);
                 }}
-            /> */}
+            />
+            {recent &&
+                recent.map(function (user) {
+                    return (
+                        <div key={user.id}>
+                            {user.first_name}
+                            {user.last_name}
+                            <img src={user.imageurl} />
+                        </div>
+                    );
+                })}
         </>
     );
 }

@@ -262,15 +262,18 @@ app.post("/otherUsers", (req, res) => {
 
 app.get("/api/users/most-recent", (req, res) => {
     db.resultUsers().then(({ rows }) => {
-        console.log(rows);
+        // console.log(rows);
         res.json({
             success: rows,
         });
     });
 });
 
-app.get("/api/users/", (req, res) => {
-    db.filterUsers().then(({ rows }) => {
+app.get("/api/users/:searchterm", (req, res) => {
+    // console.log("I am coming from server");
+    const searchterm = req.params.searchterm;
+    // console.log(req.body);
+    db.filterUsers(searchterm).then(({ rows }) => {
         console.log(rows);
         res.json({
             success: rows,

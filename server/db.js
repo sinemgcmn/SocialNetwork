@@ -119,13 +119,14 @@ module.exports.resultUsers = () => {
     return db.query(q);
 };
 
-module.exports.filterUsers = (val) => {
+module.exports.filterUsers = (searchTerm) => {
     const q = `
-    SELECT first_name
+    SELECT first_name,last_name, imageUrl, id
     FROM users
-    WHERE first_name ILIKE $1;
+    WHERE first_name ILIKE $1
+    LIMIT 5;
     `;
 
-    const params = [val + "%"];
+    const params = [searchTerm + "%"];
     return db.query(q, params);
 };
