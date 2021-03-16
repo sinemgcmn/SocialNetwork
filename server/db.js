@@ -124,8 +124,8 @@ module.exports.filterUsers = (val) => {
     SELECT first_name
     FROM users
     WHERE first_name ILIKE $1;
-    `[val + "%"];
+    `;
 
-    const params = val;
+    const params = [val + "%"];
     return db.query(q, params);
 };
