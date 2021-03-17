@@ -133,13 +133,44 @@ module.exports.filterUsers = (searchTerm) => {
 
 ////////////PART-8////////REQUEST////////////////
 
-module.exports.sendRequest = (recipient, sender) => {
+module.exports.insertFriendInfo = (sender, recipient) => {
     const q = `
-       SELECT * FROM friendships 
-       WHERE (recipient_id = $1 AND sender_id = $2) 
-       OR (recipient_id = $2 AND sender_id = $1);
+        INSERT INTO friendships (sender_id, recipient_id)
+        VALUES ($1, $2)
+        RETURNING id;
     `;
 
-    const params = [recipient, sender];
+    const params = [sender, recipient];
+    return db.query(q, params);
+};
+
+module.exports.updateAcceptedInfo = (id, accepted) => {
+    const q = `
+        UPDATE friendships
+        SET accepted = $2
+        WHERE id = $1;
+    `;
+    const params = [id, accepted];
+    return db.query(q, params);
+};
+
+module.exports.deleteFriendInfo = (id) => {
+    const q = `
+        DELETE 
+        FROM friendships 
+        WHERE id = $1;
+    `;
+    const params = [id];
+    return db.query(q, params);
+};
+
+module.exports.selectFriendship = (sender, recipient) => {
+    const q = `
+        SELECT * FROM friendships 
+        WHERE (recipient_id = $1 AND sender_id = $2) 
+        OR (recipient_id = $2 AND sender_id = $1);
+    `;
+
+    const params = [sender, recipient];
     return db.query(q, params);
 };

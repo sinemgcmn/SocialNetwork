@@ -5,31 +5,76 @@ export default class FriendButton extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            btnTxt: "",
+            btnTxt: "Make Friend Request",
         };
 
         console.log("props in FriendButton: ", props);
     }
 
     componentDidMount() {
-        // console.log("this.props.id: ", this.props.id);
-        axios.get("/api/user/" + this.props.id).then(({ data }) => {
-            console.log("data.success", data.success);
+        console.log("this.props.id: ", this.props.id);
+        axios
+            .get("/api/user/" + this.props.id)
+            .then(({ data }) => {
+                console.log("data.success", data.success);
+                if (data.success == []) {
+                    this.setState({ btnTxt: "Make Friend Request" });
+                }
+                if (data.success[0].accepted == true) {
+                    if (data.success[0].sender_id) {
+                        this.setState({ btnTxt: "End Friendship" });
+                        if (data.success[0].recipient_id) {
+                            this.setState({ btnTxt: "End Friendship" });
+                        }
+                    }
+                }
+                if (data.success[0].accepted == false) {
+                    if (data.success[0].sender_id) {
+                        this.setState({ btnTxt: "Cancel Friend Request" });
+                        if (data.success[0].recipient_id) {
+                            this.setState({
+                                btnTxt: "Accept Friend Request",
+                            });
+                        }
+                    }
+                }
+            })
+            .catch(function (err) {
+                console.log("error from post req", err);
+            });
+    }
 
-            if (data.success == []) {
-                this.setState({ btnTxt: "Make Friend Request" });
-            } else if (data.success == true) {
-                this.setState({ btnTxt: "End Friendship" });
-            } else if (data.success == false) {
-                this.setState({ btnTxt: "Cancel Friend Request" });
-            }
-        });
+    sendRequestButton() {
+        axios
+            .post("/api/user/" + this.props.id, { btnTxt: this.state.btnTxt })
+            .then(({ data }) => {
+                console.log("sendButtonRequest:", data);
+                this.setState({ btnTxt: data.success });
+            })
+            .catch(function (err) {
+                console.log("error from post req", err);
+            });
+    }
+
+    handleChange(e) {
+        this.setState(
+            {
+                btnTxt: e.target.value,
+            },
+            () => console.log("this state after setState:", this.state)
+        );
     }
 
     render() {
         return (
             <div>
-                <button className="regButton">{this.state.btnTxt}</button>
+                <button
+                    onClick={() => this.sendRequestButton()}
+                    onChange={(e) => this.handleChange(e)}
+                    className="regButton"
+                >
+                    {this.state.btnTxt}
+                </button>
             </div>
         );
     }

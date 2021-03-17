@@ -283,15 +283,52 @@ app.get("/api/users/:searchterm", (req, res) => {
 
 app.get("/api/user/:id", (req, res) => {
     const loggedInUser = req.session.userId;
-    console.log("loggedInUser", loggedInUser);
+    // console.log("loggedInUser", loggedInUser);
     const otherUser = req.params.id;
-    console.log("otherUser", otherUser);
-    db.sendRequest(otherUser, loggedInUser).then(({ rows }) => {
-        console.log("sendRequest", rows);
+    // console.log("otherUser", otherUser);
+    db.selectFriendship(otherUser, loggedInUser).then(({ rows }) => {
+        // console.log("selectFriendship-rows", rows);
         res.json({
             success: rows,
         });
     });
+});
+
+app.post("/api/user/:id", (req, res) => {
+    const { btnTxt } = req.body;
+    console.log("btnTxt", btnTxt);
+    const loggedInUser = req.session.userId;
+    // console.log("loggedInUser", loggedInUser);
+    const otherUser = req.params.id;
+    // console.log("otherUser", otherUser);
+    if (btnTxt == "Make Friend Request") {
+        db.insertFriendInfo(loggedInUser, otherUser).then(({ rows }) => {
+            console.log("insertFriendInfo", rows);
+            res.json({
+                success: "Cancel Friend Request",
+            });
+        });
+    }
+    if (btnTxt == "Cancel Friend Request" || btnTxt == "End Friendship") {
+        db.selectFriendship(loggedInUser, otherUser).then(({ rows }) => {
+            console.log("delete", rows);
+            db.deleteFriendInfo(rows[0].id);
+            res.json({
+                success: "Make Friend Request",
+            });
+        });
+    }
+    if (btnTxt == "Accept Friend Request") {
+        db.selectFriendship(loggedInUser, otherUser).then(({ rows }) => {
+            console.log("update", rows[0].id, rows[0].accepted);
+            rows[0].accepted = true;
+            db.updateAcceptedInfo(rows[0].id, rows[0].accepted);
+            console.log("update", rows[0].id, rows[0].accepted);
+            res.json({
+                success: "End Friendship",
+            });
+        });
+    }
 });
 
 app.get("*", function (req, res) {
