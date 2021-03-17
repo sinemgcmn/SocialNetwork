@@ -160,7 +160,7 @@ app.post("/reset/start", (req, res) => {
 });
 
 app.post("/reset/verify", (req, res) => {
-    const { secretCode } = req.body;
+    const { secretCode, password, email } = req.body;
     // console.log("req.body.code", req.body.code);
     db.userCodeForReset(secretCode).then(({ rows }) => {
         // console.log("rows:", rows);
@@ -231,7 +231,7 @@ app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
 app.post("/bio", (req, res) => {
     // console.log("I am coming from server");
     const { bioDraft } = req.body;
-    console.log(req.body);
+    // console.log(req.body);
     const userId = req.session.userId;
     if (req.session.userId) {
         db.updateBioInfo(userId, bioDraft);
@@ -253,8 +253,8 @@ app.post("/otherUsers", (req, res) => {
         });
     } else {
         db.selectUserInputForPic(userId).then((result) => {
-            console.log("selectUserInputForPic", result);
-            console.log(result.rows);
+            // console.log("selectUserInputForPic", result);
+            // console.log(result.rows);
             res.json(result.rows[0]);
         });
     }
@@ -274,7 +274,20 @@ app.get("/api/users/:searchterm", (req, res) => {
     const searchterm = req.params.searchterm;
     // console.log(req.body);
     db.filterUsers(searchterm).then(({ rows }) => {
-        console.log(rows);
+        // console.log(rows);
+        res.json({
+            success: rows,
+        });
+    });
+});
+
+app.get("/api/user/:id", (req, res) => {
+    const loggedInUser = req.session.userId;
+    console.log("loggedInUser", loggedInUser);
+    const otherUser = req.params.id;
+    console.log("otherUser", otherUser);
+    db.sendRequest(otherUser, loggedInUser).then(({ rows }) => {
+        console.log("sendRequest", rows);
         res.json({
             success: rows,
         });

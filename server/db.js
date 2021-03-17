@@ -130,3 +130,16 @@ module.exports.filterUsers = (searchTerm) => {
     const params = [searchTerm + "%"];
     return db.query(q, params);
 };
+
+////////////PART-8////////REQUEST////////////////
+
+module.exports.sendRequest = (recipient, sender) => {
+    const q = `
+       SELECT * FROM friendships 
+       WHERE (recipient_id = $1 AND sender_id = $2) 
+       OR (recipient_id = $2 AND sender_id = $1);
+    `;
+
+    const params = [recipient, sender];
+    return db.query(q, params);
+};

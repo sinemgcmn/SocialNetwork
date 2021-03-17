@@ -61,11 +61,6 @@ export default class ResetPassword extends React.Component {
         const { step } = this.state;
         return (
             <div>
-                <h1 className="headerTop">C.A.T.P.S.T.E.R</h1>
-                <p className="headerBottom">
-                    We Always Celebrate Caturday in Berlin
-                </p>
-
                 {this.state.error && (
                     <h2 className="errorMsg">
                         Sorry, something went wrong.Please check your

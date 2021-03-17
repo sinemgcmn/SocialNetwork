@@ -9,12 +9,12 @@ export default class BioEditor extends React.Component {
             btnTxt: "",
             editModeIsOn: false,
         };
-        console.log("props in BioEditor: ", props);
+        // console.log("props in BioEditor: ", props);
     }
 
     componentDidMount() {
         // console.log("grandchild just mounted");
-        console.log("props in grandchild", this.props);
+        // console.log("props in grandchild", this.props);
         if (this.props.bio) {
             this.setState({
                 btnTxt: "edit",

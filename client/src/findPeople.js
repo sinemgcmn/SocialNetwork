@@ -26,36 +26,42 @@ export default function FindPeople() {
 
     return (
         <>
-            <h1>Check out who just join!</h1>
-
-            {users &&
-                users.map(function (user) {
-                    return (
-                        <div key={user.id}>
-                            {user.first_name}
-                            {user.last_name}
-                            <img src={user.imageurl} />
-                        </div>
-                    );
-                })}
-
-            <h1>Are you looking for someone in particular</h1>
-            <input
-                defaultValue={searchTerm}
-                onChange={({ target }) => {
-                    setVal(target.value);
-                }}
-            />
-            {recent &&
-                recent.map(function (user) {
-                    return (
-                        <div key={user.id}>
-                            {user.first_name}
-                            {user.last_name}
-                            <img src={user.imageurl} />
-                        </div>
-                    );
-                })}
+            <div className="searchRecent">
+                <h1>Check out who just join!</h1>
+                {users &&
+                    users.map(function (user) {
+                        return (
+                            <div key={user.id}>
+                                <div>
+                                    {user.first_name}
+                                    {user.last_name}
+                                </div>
+                                <img src={user.imageurl} />
+                            </div>
+                        );
+                    })}
+            </div>
+            <div className="searchResult">
+                <h1>Are you looking for someone in particular</h1>
+                <input
+                    defaultValue={searchTerm}
+                    onChange={({ target }) => {
+                        setVal(target.value);
+                    }}
+                />
+                {recent &&
+                    recent.map(function (user) {
+                        return (
+                            <div key={user.id}>
+                                <div>
+                                    {user.first_name}
+                                    {user.last_name}
+                                </div>
+                                <img src={user.imageurl} />
+                            </div>
+                        );
+                    })}
+            </div>
         </>
     );
 }
