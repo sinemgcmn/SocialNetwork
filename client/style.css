@@ -9,13 +9,16 @@
 body {
     display: grid;
     min-height: 100vh;
-    grid-template-rows: 150px 1fr 40px;
+    grid-template-rows: 170px 1fr 60px;
 }
 
 /* essentials */
 
 header {
-    background-color: black;
+    background-image: url("https://media.giphy.com/media/43MWv1np67LOhP0gMc/giphy.gif");
+    background-size: 300px;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 .headerPart {
@@ -25,20 +28,25 @@ header {
 }
 
 .headerTop {
-    font-size: 45px;
-    letter-spacing: 45px;
-    color: white;
+    font-size: 60px;
+    letter-spacing: 20px;
+    color: black;
 }
 
 .headerBottom {
     font-size: 16px;
     font-style: italic;
     letter-spacing: 6px;
-    color: white;
+    color: black;
 }
 
 main {
-    background-image: url("main.jpeg");
+    background-image: linear-gradient(
+            to right bottom,
+            rgba(113, 205, 182, 0.3),
+            rgba(2, 46, 35, 0.3)
+        ),
+        url("main.jpeg");
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -47,9 +55,10 @@ main {
 }
 
 footer {
-    background-color: black;
-    color: white;
-    font-style: italic;
+    background-image: url("https://media.giphy.com/media/43MWv1np67LOhP0gMc/giphy.gif");
+
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 .logo {
@@ -73,27 +82,27 @@ footer {
     width: 500px;
     height: 45px;
     margin: 25px;
-    background: transparent;
+    /* background: transparent; */
     border-top: none;
     border-right: none;
     border-left: none;
-    border-color: white;
+    border-color: rgb(248, 203, 120);
 }
 
 .regButton {
     width: 250px;
     height: 30px;
     border-radius: 20px;
-    background-color: rgb(14, 255, 219);
-    color: rgb(170, 80, 255);
+    background-color: rgb(211, 161, 55);
+    color: rgb(0, 0, 0);
 }
 
 .errorMsg {
-    margin-top: 10px;
+    margin-top: 50px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    color: white;
+    color: black;
     font-size: 28px;
 }
 
@@ -104,20 +113,38 @@ footer {
     flex-direction: column;
     justify-content: baseline;
     align-items: center;
-    color: white;
+    color: black;
+    font-size: 20px;
+}
+
+/* ////AFTER LOGIN/// */
+
+.otherProfile {
+    margin-top: 40px;
+    margin-left: 40px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.otherName {
+    font-size: 40px;
+}
+
+.otherBio {
     font-size: 20px;
 }
 
 .profile-pic {
     float: right;
     margin: 20px;
-    width: 50px;
-    height: 50px;
+    width: 100px;
+    height: 100px;
 }
 
 img {
-    width: 200px;
-    height: 200px;
+    width: 300px;
+    height: 300px;
 }
 
 .profileName {

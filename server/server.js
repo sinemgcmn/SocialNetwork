@@ -262,7 +262,7 @@ app.post("/otherUsers", (req, res) => {
 
 app.get("/api/users/most-recent", (req, res) => {
     db.resultUsers().then(({ rows }) => {
-        // console.log(rows);
+        console.log(rows);
         res.json({
             success: rows,
         });

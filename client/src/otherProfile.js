@@ -32,8 +32,8 @@ export default class OtherProfile extends Component {
 
     render() {
         return (
-            <div>
-                <h1>
+            <div className="otherProfile">
+                <h1 className="otherName">
                     {this.state.userInfo.first_name}{" "}
                     {this.state.userInfo.last_name}
                 </h1>
@@ -44,7 +44,7 @@ export default class OtherProfile extends Component {
                         this.state.userInfo.last_name
                     }`}
                 />
-                <h1>{this.state.userInfo.bio}</h1>
+                <h1 className="otherBio">{this.state.userInfo.bio}</h1>
 
                 <FriendButton id={this.props.match.params.id} />
             </div>
