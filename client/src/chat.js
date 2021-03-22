@@ -18,7 +18,7 @@ export function Chat() {
         if (e.key === "Enter") {
             e.preventDefault();
             console.log("e.target.value:", e.target.value);
-            socket.emit("hello world");
+            socket.emit("my amazing chat messages");
             e.target.value = "";
         }
     };

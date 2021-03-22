@@ -2,12 +2,13 @@ const express = require("express");
 const app = express();
 const compression = require("compression");
 const db = require("./db");
-const server = require("http").Server(app);
+
 const { hash, compare } = require("./utils/bc.js");
 const cryptoRandomString = require("crypto-random-string");
 const cookieSession = require("cookie-session");
 const csurf = require("csurf");
 //socket IO
+const server = require("http").Server(app);
 const io = require("socket.io")(server, {
     allowRequest: (req, callback) =>
         callback(null, req.headers.referer.startsWith("http://localhost:3000")),
@@ -424,20 +425,29 @@ server.listen(process.env.PORT || 3001, function () {
 });
 
 io.on("connection", (socket) => {
-    /// write all your codes in this place
+    //if there is no id, we are ceasing the connection but if there is
     console.log(`Socket with id: ${socket.id} has connected!`);
     if (!socket.request.session.userId) {
         return socket.disconnect(true);
-    } // if there is no id, we are ceasing the connection but if there is
+    }
 
+    //Confirm the user is logged in by finding the user's id in socket.request.session.
     const userId = socket.request.session.userId;
     console.log("userid in socket", userId);
-    console.log("socketId in socket", socket.id);
+    // console.log("socketId in socket", socket.id);
 
-    //first arg name of our custom event that gets emitted
+    //Emit an event to the client that just connecting containing the ten most recent messages
+    //Get the ten most recent out of the db. Use reverse to get them into chronological order if necessary
+    //Emit the event with the array as the payload
 
-    socket.on("hello world", (msg) => {
+    db.selectMessage(userId).then((result) => {
+        console.log("result.rows", result.row);
+        io.socket.emit("chatMessages", result.rows.reverse());
+    });
+
+    socket.on("my amazing chat messages", (msg) => {
         console.log("msg from server:", msg);
+
         io.sockets.emit("sending back to the client", msg);
 
         // that should be the data that we want to send to the client

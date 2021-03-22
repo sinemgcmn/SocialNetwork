@@ -12,11 +12,14 @@ const store = createStore(
     composeWithDevTools(applyMiddleware(reduxPromise))
 );
 
-import { init } from "./socket";
 import Footer from "./footer";
 import Header from "./header";
 import Welcome from "./welcome";
 import App from "./app";
+
+//Assuming you are using something like the socket.js presented above,
+//you would call the init function only if the user is logged in and you would pass it the Redux store
+import { init } from "./socket";
 let elem;
 if (location.pathname == "/welcome") {
     elem = <Welcome />;

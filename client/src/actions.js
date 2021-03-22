@@ -41,3 +41,29 @@ export async function unfriend(id) {
         id,
     };
 }
+
+//10 MOST RECENT MESSAGES
+
+export async function chatMessages(id) {
+    console.log("unfriend", id);
+    await axios.post(`/unfriend/${id}`);
+    console.log("unfriend-id", id);
+    // .then(({ rows }) => console.log(rows));
+    return {
+        type: "UNFRIENDS",
+        id,
+    };
+}
+
+//MESSAGE
+
+export async function chatMessage(id) {
+    console.log("unfriend", id);
+    await axios.post(`/unfriend/${id}`);
+    console.log("unfriend-id", id);
+    // .then(({ rows }) => console.log(rows));
+    return {
+        type: "UNFRIENDS",
+        id,
+    };
+}

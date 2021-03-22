@@ -140,6 +140,17 @@ export default class App extends Component {
                             />
                         )}
                     />
+
+                    <Route
+                        path="/chat"
+                        render={(props) => (
+                            <Chat
+                                key={props.match.url}
+                                match={props.match}
+                                history={props.history}
+                            />
+                        )}
+                    />
                 </div>
             </BrowserRouter>
         );

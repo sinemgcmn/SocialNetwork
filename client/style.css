@@ -290,3 +290,9 @@ img {
     flex-direction: column;
     align-items: center;
 }
+
+.chat-container {
+    background-color: yellow;
+    height: 150px;
+    overflow-y: auto;
+}

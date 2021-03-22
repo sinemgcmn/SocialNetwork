@@ -191,3 +191,41 @@ module.exports.selectFriendsAndWannabes = (user) => {
     const params = [user];
     return db.query(q, params);
 };
+
+//////PART-10///////////
+
+module.exports.selectMessage = (user) => {
+    const q = `
+        SELECT users.id, first_name, last_name, imageurl, chat
+        FROM messages
+        JOIN users
+        ON (sender_id = $1)
+        ORDER BY id DESC
+        LIMIT 10;
+    `;
+
+    const params = [user];
+    return db.query(q, params);
+};
+
+module.exports.insertMessage = (chat, sender) => {
+    const q = `
+        INSERT INTO messages (chat, sender_id)
+        VALUES ($1, $2)
+        RETURNING id;
+    `;
+
+    const params = [chat, sender];
+    return db.query(q, params);
+};
+
+module.exports.selectInfoFromMessage = (user) => {
+    const q = `
+        SELECT users.id, first_name, last_name, imageurl
+        FROM messages
+        JOIN users
+    `;
+
+    const params = [user];
+    return db.query(q, params);
+};
