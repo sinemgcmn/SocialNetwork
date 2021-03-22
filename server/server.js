@@ -3,18 +3,23 @@ const app = express();
 const compression = require("compression");
 const db = require("./db");
 const server = require("http").Server(app);
+const { hash, compare } = require("./utils/bc.js");
+const cryptoRandomString = require("crypto-random-string");
+const cookieSession = require("cookie-session");
+const csurf = require("csurf");
+//socket IO
 const io = require("socket.io")(server, {
     allowRequest: (req, callback) =>
         callback(null, req.headers.referer.startsWith("http://localhost:3000")),
 });
-
+//socket IO
+//AWS
 const ses = require("./ses");
 const multer = require("multer");
 const uidSafe = require("uid-safe");
 const path = require("path");
 const s3 = require("./s3");
 const config = require("./config");
-
 const diskStorage = multer.diskStorage({
     destination: function (req, file, callback) {
         callback(null, __dirname + "/uploads");
@@ -25,20 +30,14 @@ const diskStorage = multer.diskStorage({
         });
     },
 });
-
 const uploader = multer({
     storage: diskStorage,
     limits: {
         fileSize: 2097152,
     },
 });
-
+//AWS
 app.use(express.static("public"));
-
-const { hash, compare } = require("./utils/bc.js");
-const cryptoRandomString = require("crypto-random-string");
-const cookieSession = require("cookie-session");
-const csurf = require("csurf");
 
 //Cookie Middleware
 // app.use(
@@ -47,14 +46,17 @@ const csurf = require("csurf");
 //         maxAge: 1000 * 60 * 60 * 24 * 14,
 //     })
 // );
+
+////socket IO
 const cookieSessionMiddleware = cookieSession({
-    secret: `I'm always angry.`,
-    maxAge: 1000 * 60 * 60 * 24 * 90,
+    secret: `wingardium leviosa`,
+    maxAge: 1000 * 60 * 60 * 24 * 14,
 });
 app.use(cookieSessionMiddleware);
 io.use(function (socket, next) {
-    cookieSessionMiddleware(socket.request, socket.request.res, next);
-}); // this will give the id of the user in our socket
+    cookieSessionMiddleware(socket.req, socket.req.res, next);
+});
+////socket IO
 
 app.use(csurf());
 
@@ -423,12 +425,12 @@ app.listen(process.env.PORT || 3001, function () {
 
 io.on("connection", (socket) => {
     /// write all your codes in this place
-    console.log("Socket with id: ${socket.id} has connected!");
-    if (!socket.request.session.userId) {
+    console.log(`Socket with id: ${socket.id} has connected!`);
+    if (!socket.req.session.userId) {
         return socket.disconnect(true);
     } // if there is no id, we are ceasing the connection but if there is
 
-    const userId = socket.request.session.userId;
+    const userId = socket.req.session.userId;
     console.log("userid in socket", userId);
     console.log("socketId in socket", socket.id);
 
@@ -438,10 +440,10 @@ io.on("connection", (socket) => {
         console.log("msg from server:", msg);
         io.sockets.emit("sending back to the client", msg);
 
-        // that should be the  data that we want to send to the client
+        // that should be the data that we want to send to the client
     });
 
     socket.on("disconnect", () => {
-        console.log("Socket with id: ${socket.id} just DISCONNECTED!");
+        console.log(`Socket with id: ${socket.id} just DISCONNECTED!`);
     });
 });
