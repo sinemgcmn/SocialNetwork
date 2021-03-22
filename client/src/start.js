@@ -10,6 +10,7 @@ const store = createStore(
     reducer,
     composeWithDevTools(applyMiddleware(reduxPromise))
 );
+import { init } from "./socket";
 
 import Footer from "./footer";
 import Header from "./header";
@@ -20,6 +21,7 @@ let elem;
 if (location.pathname == "/welcome") {
     elem = <Welcome />;
 } else {
+    init(store); // this will be init and this will init the init fucntion in socket.io
     elem = (
         <Provider store={store}>
             <App />

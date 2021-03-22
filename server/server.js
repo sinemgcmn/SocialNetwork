@@ -41,12 +41,20 @@ const cookieSession = require("cookie-session");
 const csurf = require("csurf");
 
 //Cookie Middleware
-app.use(
-    cookieSession({
-        secret: `wingardium leviosa`,
-        maxAge: 1000 * 60 * 60 * 24 * 14,
-    })
-);
+// app.use(
+//     cookieSession({
+//         secret: `wingardium leviosa`,
+//         maxAge: 1000 * 60 * 60 * 24 * 14,
+//     })
+// );
+const cookieSessionMiddleware = cookieSession({
+    secret: `I'm always angry.`,
+    maxAge: 1000 * 60 * 60 * 24 * 90,
+});
+app.use(cookieSessionMiddleware);
+io.use(function (socket, next) {
+    cookieSessionMiddleware(socket.request, socket.request.res, next);
+}); // this will give the id of the user in our socket
 
 app.use(csurf());
 
@@ -414,13 +422,23 @@ app.listen(process.env.PORT || 3001, function () {
 });
 
 io.on("connection", (socket) => {
-    /// write oall your codes in this place
+    /// write all your codes in this place
     console.log("Socket with id: ${socket.id} has connected!");
+    if (!socket.request.session.userId) {
+        return socket.disconnect(true);
+    } // if there is no id, we are ceasing the connection but if there is
+
+    const userId = socket.request.session.userId;
+    console.log("userid in socket", userId);
+    console.log("socketId in socket", socket.id);
 
     //first arg name of our custom event that gets emitted
 
-    socket.emit("hello", {
-        cohort: "Fennel", // that should be the  data that we hwant to send to the client
+    socket.on("hello world", (msg) => {
+        console.log("msg from server:", msg);
+        io.sockets.emit("sending back to the client", msg);
+
+        // that should be the  data that we want to send to the client
     });
 
     socket.on("disconnect", () => {

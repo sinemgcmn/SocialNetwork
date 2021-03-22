@@ -7,6 +7,7 @@ import Profile from "./profile";
 import OtherProfile from "./otherProfile";
 import FindPeople from "./findPeople";
 import Friends from "./friends";
+import { Chat } from "./chat";
 
 export default class App extends Component {
     constructor(props) {
@@ -93,6 +94,8 @@ export default class App extends Component {
                                     />
                                 )}
                             />
+
+                            <Route path="/chat" component={Chat} />
                         </div>
                     )}
 
