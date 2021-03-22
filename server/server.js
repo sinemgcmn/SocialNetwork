@@ -54,7 +54,7 @@ const cookieSessionMiddleware = cookieSession({
 });
 app.use(cookieSessionMiddleware);
 io.use(function (socket, next) {
-    cookieSessionMiddleware(socket.req, socket.req.res, next);
+    cookieSessionMiddleware(socket.request, socket.request.res, next);
 });
 ////socket IO
 
@@ -419,18 +419,18 @@ app.get("*", function (req, res) {
     }
 });
 
-app.listen(process.env.PORT || 3001, function () {
+server.listen(process.env.PORT || 3001, function () {
     console.log("I'm listening.");
 });
 
 io.on("connection", (socket) => {
     /// write all your codes in this place
     console.log(`Socket with id: ${socket.id} has connected!`);
-    if (!socket.req.session.userId) {
+    if (!socket.request.session.userId) {
         return socket.disconnect(true);
     } // if there is no id, we are ceasing the connection but if there is
 
-    const userId = socket.req.session.userId;
+    const userId = socket.request.session.userId;
     console.log("userid in socket", userId);
     console.log("socketId in socket", socket.id);
 
