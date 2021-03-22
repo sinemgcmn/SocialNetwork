@@ -29,13 +29,20 @@ export default class FriendButton extends Component {
                     }
                 }
                 if (data.success[0].accepted == false) {
-                    if (data.success[0].sender_id) {
+                    console.log("friendsbug", data.success[0]);
+                    if (
+                        data.success[0].sender_id ==
+                        data.success[0].loggedInUser
+                    ) {
                         this.setState({ btnTxt: "Cancel Friend Request" });
-                        if (data.success[0].recipient_id) {
-                            this.setState({
-                                btnTxt: "Accept Friend Request",
-                            });
-                        }
+                    }
+                    if (
+                        data.success[0].recipient_id ==
+                        data.success[0].loggedInUser
+                    ) {
+                        this.setState({
+                            btnTxt: "Accept Friend Request",
+                        });
                     }
                 }
             })

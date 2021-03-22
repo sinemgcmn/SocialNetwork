@@ -295,9 +295,9 @@ app.get("/api/user/:id", (req, res) => {
     const otherUser = req.params.id;
     // console.log("otherUser", otherUser);
     db.selectFriendship(otherUser, loggedInUser).then(({ rows }) => {
-        // console.log("selectFriendship-rows", rows);
+        console.log("selectFriendship-rows", rows);
         res.json({
-            success: rows,
+            success: [{ ...rows[0], loggedInUser }],
         });
     });
 });
