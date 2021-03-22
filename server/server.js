@@ -2,6 +2,12 @@ const express = require("express");
 const app = express();
 const compression = require("compression");
 const db = require("./db");
+const server = require("http").Server(app);
+const io = require("socket.io")(server, {
+    allowRequest: (req, callback) =>
+        callback(null, req.headers.referer.startsWith("http://localhost:3000")),
+});
+
 const ses = require("./ses");
 const multer = require("multer");
 const uidSafe = require("uid-safe");
@@ -98,7 +104,7 @@ app.post("/login", (req, res) => {
     const { password, email } = req.body;
     if (email && password) {
         db.userInputForLog(email).then(({ rows }) => {
-            console.log(rows);
+            // console.log(rows);
             if (rows.length === 0) {
                 res.json({
                     success: false,
@@ -233,16 +239,10 @@ app.post("/bio", (req, res) => {
     const { bioDraft } = req.body;
     // console.log(req.body);
     const userId = req.session.userId;
-    if (req.session.userId) {
-        db.updateBioInfo(userId, bioDraft);
-        res.json({
-            success: true,
-        });
-    } else {
-        res.json({
-            success: false,
-        });
-    }
+    db.updateBioInfo(userId, bioDraft).then(({ rows }) => {
+        console.log(rows);
+        res.json(rows);
+    });
 });
 
 app.post("/otherUsers", (req, res) => {
@@ -262,7 +262,7 @@ app.post("/otherUsers", (req, res) => {
 
 app.get("/api/users/most-recent", (req, res) => {
     db.resultUsers().then(({ rows }) => {
-        console.log(rows);
+        // console.log(rows);
         res.json({
             success: rows,
         });
@@ -296,7 +296,7 @@ app.get("/api/user/:id", (req, res) => {
 
 app.post("/api/user/:id", (req, res) => {
     const { btnTxt } = req.body;
-    console.log("btnTxt", btnTxt);
+    // console.log("btnTxt", btnTxt);
     const loggedInUser = req.session.userId;
     // console.log("loggedInUser", loggedInUser);
     const otherUser = req.params.id;
@@ -323,12 +323,77 @@ app.post("/api/user/:id", (req, res) => {
             console.log("update", rows[0].id, rows[0].accepted);
             rows[0].accepted = true;
             db.updateAcceptedInfo(rows[0].id, rows[0].accepted);
-            console.log("update", rows[0].id, rows[0].accepted);
+            // console.log("update", rows[0].id, rows[0].accepted);
             res.json({
                 success: "End Friendship",
             });
         });
     }
+});
+
+///////PART 9///////////////
+
+app.get("/api/friends", (req, res) => {
+    // console.log("I am from server and from friends-wannabes");
+    const user = req.session.userId;
+    // console.log("user", user);
+    // const otherUser = req.params.id;
+    // console.log("otherUser", otherUser);
+    db.selectFriendsAndWannabes(user).then(({ rows }) => {
+        // console.log("selectFriendsAndWannabes", rows);
+        res.json({
+            success: rows,
+        });
+    });
+});
+
+app.post("/accept/:id", (req, res) => {
+    console.log("I am from server and from accept");
+    const loggedInUser = req.session.userId;
+    const id = req.params.id;
+    db.selectFriendship(loggedInUser, id).then(({ rows }) => {
+        console.log("accept", rows);
+        rows[0].accepted = true;
+        db.updateAcceptedInfo(rows[0].id, rows[0].accepted);
+        console.log("update", rows[0].id, rows[0].accepted);
+        res.json({
+            success: rows,
+        });
+    });
+});
+
+app.post("/unfriend/:id", (req, res) => {
+    console.log("I am from server and from unfriend");
+    const loggedInUser = req.session.userId;
+    const id = req.params.id;
+    db.selectFriendship(loggedInUser, id).then(({ rows }) => {
+        console.log("delete", rows);
+        db.deleteFriendInfo(rows[0].id);
+        console.log("hello");
+        res.json({
+            success: true,
+        });
+    });
+});
+
+app.post("/decline/:id", (req, res) => {
+    console.log("I am from server and from decline");
+    const loggedInUser = req.session.userId;
+    const id = req.params.id;
+    db.selectFriendship(loggedInUser, id).then(({ rows }) => {
+        console.log("delete", rows);
+        db.deleteFriendInfo(rows[0].id);
+        console.log("hello");
+        res.json({
+            success: true,
+        });
+    });
+});
+
+app.post("/logout", (req, res) => {
+    console.log("I am from server and from unfriend");
+    req.session = null;
+    res.redirect("/welcome");
 });
 
 app.get("*", function (req, res) {
@@ -346,4 +411,19 @@ app.get("*", function (req, res) {
 
 app.listen(process.env.PORT || 3001, function () {
     console.log("I'm listening.");
+});
+
+io.on("connection", (socket) => {
+    /// write oall your codes in this place
+    console.log("Socket with id: ${socket.id} has connected!");
+
+    //first arg name of our custom event that gets emitted
+
+    socket.emit("hello", {
+        cohort: "Fennel", // that should be the  data that we hwant to send to the client
+    });
+
+    socket.on("disconnect", () => {
+        console.log("Socket with id: ${socket.id} just DISCONNECTED!");
+    });
 });

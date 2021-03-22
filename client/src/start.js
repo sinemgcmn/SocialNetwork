@@ -1,17 +1,30 @@
 import ReactDOM from "react-dom";
-import Welcome from "./welcome";
-// import Logo from "./logo";
-import App from "./app";
+import { createStore, applyMiddleware } from "redux";
+import { Provider } from "react-redux";
+//the redux-promise middleware allows you to pass to dispatch a promise that will resolve with an action rather than just an action.
+import reduxPromise from "redux-promise";
+import { composeWithDevTools } from "redux-devtools-extension";
+import reducer from "./reducer";
+
+const store = createStore(
+    reducer,
+    composeWithDevTools(applyMiddleware(reduxPromise))
+);
+
 import Footer from "./footer";
 import Header from "./header";
+import Welcome from "./welcome";
+import App from "./app";
 
 let elem;
-const userIsLoggedIn = location.pathname != "/welcome";
-
-if (userIsLoggedIn) {
-    elem = <App />;
-} else {
+if (location.pathname == "/welcome") {
     elem = <Welcome />;
+} else {
+    elem = (
+        <Provider store={store}>
+            <App />
+        </Provider>
+    );
 }
 
 ReactDOM.render(elem, document.querySelector("main"));

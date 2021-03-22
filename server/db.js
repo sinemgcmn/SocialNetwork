@@ -101,7 +101,8 @@ module.exports.updateBioInfo = (userId, bio) => {
     const q = `
         UPDATE users
         SET bio = $2
-        WHERE id = $1;
+        WHERE id = $1
+        RETURNING bio;
     `;
     const params = [userId, bio];
     return db.query(q, params);
@@ -114,7 +115,7 @@ module.exports.resultUsers = () => {
         SELECT first_name, last_name, imageUrl, id
         FROM users
         ORDER BY id DESC
-        LIMIT 3;
+        LIMIT 6;
     `;
     return db.query(q);
 };
@@ -172,5 +173,21 @@ module.exports.selectFriendship = (sender, recipient) => {
     `;
 
     const params = [sender, recipient];
+    return db.query(q, params);
+};
+
+///////PART 9///////////////
+
+module.exports.selectFriendsAndWannabes = (user) => {
+    const q = `
+        SELECT users.id, first_name, last_name, imageurl, accepted
+        FROM friendships
+        JOIN users
+        ON (accepted = false AND recipient_id = $1 AND sender_id = users.id)
+        OR (accepted = true AND recipient_id = $1 AND sender_id = users.id)
+        OR (accepted = true AND sender_id = $1 AND recipient_id = users.id)
+    `;
+
+    const params = [user];
     return db.query(q, params);
 };

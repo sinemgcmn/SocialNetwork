@@ -27,17 +27,16 @@ export default class BioEditor extends React.Component {
     }
 
     updateBioinEditor() {
-        console.log(this.state.bioDraft);
+        console.log("this.state.bioDraft", this.state.bioDraft);
         axios
             .post("/bio", { bioDraft: this.state.bioDraft })
-            .then((response) => {
-                console.log("datafromupdateBioinEditor:", response);
-                if (response.data.success) {
-                    this.props.updateBio(this.state.bioDraft);
-                    this.setState({
-                        editModeIsOn: false,
-                    });
-                }
+            .then(({ data }) => {
+                console.log("datafromupdateBioinEditor:", data[0].bio);
+                let bioUpdated = data[0].bio;
+                this.props.updateBio(bioUpdated);
+                this.setState({
+                    editModeIsOn: false,
+                });
             })
             .catch(function (err) {
                 console.log("error from post req", err);
@@ -68,7 +67,7 @@ export default class BioEditor extends React.Component {
                     <button
                         onClick={() => this.toggleBioEditor()}
                         onChange={(e) => this.handleChange(e)}
-                        className="regButton"
+                        className="friendButtonProfile "
                     >
                         {this.state.btnTxt}
                     </button>
@@ -81,7 +80,7 @@ export default class BioEditor extends React.Component {
                             defaultValue={this.props.bio}
                         />
                         <button
-                            className="regButton"
+                            className="friendButtonProfile "
                             onChange={(e) => this.handleChange(e)}
                             onClick={() => this.updateBioinEditor()}
                         >

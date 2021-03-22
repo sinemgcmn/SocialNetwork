@@ -32,21 +32,25 @@ export default class OtherProfile extends Component {
 
     render() {
         return (
-            <div className="otherProfile">
-                <h1 className="otherName">
-                    {this.state.userInfo.first_name}{" "}
-                    {this.state.userInfo.last_name}
-                </h1>
-                <img
-                    src={this.state.userInfo.imageurl}
-                    alt={`${
-                        this.state.userInfo.first_name +
-                        this.state.userInfo.last_name
-                    }`}
-                />
-                <h1 className="otherBio">{this.state.userInfo.bio}</h1>
-
-                <FriendButton id={this.props.match.params.id} />
+            <div className="searchRecent">
+                <div className="mostRecentOtherProfile">
+                    <div className="otherProfile">
+                        <h1 className="mostRecentHeadlineOtherProfile">
+                            {this.state.userInfo.first_name}{" "}
+                            {this.state.userInfo.last_name}
+                        </h1>
+                        <img
+                            className="mostRecentImg"
+                            src={this.state.userInfo.imageurl}
+                            alt={`${
+                                this.state.userInfo.first_name +
+                                this.state.userInfo.last_name
+                            }`}
+                        />
+                        <FriendButton id={this.props.match.params.id} />
+                    </div>
+                    <h1 className="otherBio">{this.state.userInfo.bio}</h1>
+                </div>
             </div>
         );
     }

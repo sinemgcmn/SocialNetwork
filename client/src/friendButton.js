@@ -71,7 +71,7 @@ export default class FriendButton extends Component {
                 <button
                     onClick={() => this.sendRequestButton()}
                     onChange={(e) => this.handleChange(e)}
-                    className="regButton"
+                    className="friendButtonOtherProfile"
                 >
                     {this.state.btnTxt}
                 </button>

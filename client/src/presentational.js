@@ -3,7 +3,6 @@ export default function Presentational({
     last,
     imageUrl,
     toggleUploader,
-
     classForImgSmall,
 }) {
     // console.log("props in Presentational: ", props);
