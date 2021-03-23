@@ -33,7 +33,10 @@ export default class BioEditor extends React.Component {
             .then(({ data }) => {
                 console.log("datafromupdateBioinEditor:", data[0].bio);
                 let bioUpdated = data[0].bio;
+                console.log("bioUpdated", bioUpdated);
+                console.log("this.props", this.props);
                 this.props.updateBio(bioUpdated);
+
                 this.setState({
                     editModeIsOn: false,
                 });

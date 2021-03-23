@@ -382,7 +382,7 @@ app.post("/unfriend/:id", (req, res) => {
         db.deleteFriendInfo(rows[0].id);
         console.log("hello");
         res.json({
-            success: true,
+            success: rows,
         });
     });
 });
@@ -436,21 +436,31 @@ io.on("connection", (socket) => {
     console.log("userid in socket", userId);
     // console.log("socketId in socket", socket.id);
 
-    //Emit an event to the client that just connecting containing the ten most recent messages
-    //Get the ten most recent out of the db. Use reverse to get them into chronological order if necessary
-    //Emit the event with the array as the payload
-
-    db.selectMessage(userId).then((result) => {
-        console.log("result.rows", result.row);
-        io.socket.emit("chatMessages", result.rows.reverse());
+    db.selectMessage().then((result) => {
+        console.log("resultselectMessage", result.rows);
+        socket.emit("chatMessages", result.rows.reverse());
     });
 
-    socket.on("my amazing chat messages", (msg) => {
-        console.log("msg from server:", msg);
-
-        io.sockets.emit("sending back to the client", msg);
-
-        // that should be the data that we want to send to the client
+    socket.on("chatMessage", (chatMessage) => {
+        const sender = socket.request.session.userId;
+        db.insertMessage(chatMessage, sender).then(({ rows }) => {
+            console.log("chatMessage", rows);
+            db.selectInfoFromMessage(sender).then((result) => {
+                // console.log("resultForMessage", result.rows);
+                // console.log("sender:", sender);
+                // console.log("sender:", result.rows[0].first_name);
+                // console.log("sender:", result.rows[0].last_name);
+                // console.log("sender:", result.rows[0].imageurl);
+                // console.log("sender:", result.rows[0].chat);
+                io.emit("chatMessage", {
+                    id: sender,
+                    first_name: result.rows[0].first_name,
+                    last_name: result.rows[0].last_name,
+                    imageurl: result.rows[0].imageurl,
+                    chat: result.rows[0].chat,
+                });
+            });
+        });
     });
 
     socket.on("disconnect", () => {

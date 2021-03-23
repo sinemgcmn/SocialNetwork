@@ -60,7 +60,8 @@ export default class App extends Component {
     }
 
     updateBio(bio) {
-        console.log("Im updating Biooooo!!!!");
+        console.log(arguments);
+        console.log("bio", bio);
         this.setState({ bio: bio });
     }
 
@@ -90,7 +91,7 @@ export default class App extends Component {
                                             this.toggleUploader()
                                         }
                                         bio={this.state.bio}
-                                        updateBio={() => this.updateBio()}
+                                        updateBio={(bio) => this.updateBio(bio)}
                                     />
                                 )}
                             />
@@ -134,17 +135,6 @@ export default class App extends Component {
                         path="/friends"
                         render={(props) => (
                             <Friends
-                                key={props.match.url}
-                                match={props.match}
-                                history={props.history}
-                            />
-                        )}
-                    />
-
-                    <Route
-                        path="/chat"
-                        render={(props) => (
-                            <Chat
                                 key={props.match.url}
                                 match={props.match}
                                 history={props.history}

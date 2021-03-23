@@ -194,18 +194,17 @@ module.exports.selectFriendsAndWannabes = (user) => {
 
 //////PART-10///////////
 
-module.exports.selectMessage = (user) => {
+module.exports.selectMessage = () => {
     const q = `
         SELECT users.id, first_name, last_name, imageurl, chat
         FROM messages
         JOIN users
-        ON (sender_id = $1)
-        ORDER BY id DESC
-        LIMIT 10;
+        ON (sender_id = users.id)
+        ORDER BY messages.id DESC
+        LIMIT 10
     `;
 
-    const params = [user];
-    return db.query(q, params);
+    return db.query(q);
 };
 
 module.exports.insertMessage = (chat, sender) => {
@@ -219,13 +218,13 @@ module.exports.insertMessage = (chat, sender) => {
     return db.query(q, params);
 };
 
-module.exports.selectInfoFromMessage = (user) => {
+module.exports.selectInfoFromMessage = () => {
     const q = `
-        SELECT users.id, first_name, last_name, imageurl
+        SELECT users.id, first_name, last_name, imageurl, chat
         FROM messages
         JOIN users
+        ON (sender_id = users.id)
     `;
 
-    const params = [user];
-    return db.query(q, params);
+    return db.query(q);
 };

@@ -7,17 +7,14 @@ export default function (state = {}, action) {
         };
     }
 
-    if (action.type == "UNFRIEND") {
+    if (action.type == "UNFRIENDS") {
         state = {
             ...state,
-            friendsAndWannabes: state.friendsAndWannabes.map((user) => {
-                if (user.id == action.id) {
+            friendsAndWannabes: state.friendsAndWannabes.filter((user) => {
+                if (user.id != action.id) {
                     return {
                         ...user,
-                        accepted: true,
                     };
-                } else {
-                    return user;
                 }
             }),
         };
@@ -43,7 +40,7 @@ export default function (state = {}, action) {
         state = {
             ...state,
             friendsAndWannabes: state.friendsAndWannabes.map((user) => {
-                if (user.id == action.id) {
+                if (user.id != action.id) {
                     return {
                         ...user,
                         accepted: false,
@@ -52,6 +49,20 @@ export default function (state = {}, action) {
                     return user;
                 }
             }),
+        };
+    }
+
+    if (action.type == "GET_ALL_MESSAGES") {
+        state = {
+            ...state,
+            chatMessages: action.chatMessages,
+        };
+    }
+
+    if (action.type == "GET_LAST_MESSAGE") {
+        state = {
+            ...state,
+            chatMessages: [...state.chatMessages, action.chatMessage],
         };
     }
 
