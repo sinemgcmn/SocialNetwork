@@ -9,14 +9,14 @@
 body {
     display: grid;
     min-height: 100vh;
-    grid-template-rows: 150px 1fr 60px;
+    grid-template-rows: 200px 1fr 60px;
 }
 
 /* essentials */
 
 header {
     background-image: url("https://media.giphy.com/media/43MWv1np67LOhP0gMc/giphy.gif");
-    background-size: 300px;
+    background-size: 200px;
     background-repeat: no-repeat;
     background-attachment: fixed;
 }
@@ -29,8 +29,8 @@ header {
 
 .headerTop {
     margin-top: 10px;
-    font-size: 55px;
-    letter-spacing: 20px;
+    font-size: 40px;
+    letter-spacing: 30px;
     color: black;
 }
 
@@ -297,4 +297,13 @@ img {
     background-color: transparent;
     height: 150px;
     overflow-y: auto;
+}
+
+.headerMenu {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.headerMenuBox {
+    margin: 10px 10px;
 }

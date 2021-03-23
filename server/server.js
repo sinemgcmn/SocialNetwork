@@ -401,9 +401,9 @@ app.post("/decline/:id", (req, res) => {
     });
 });
 
-app.post("/logout", (req, res) => {
-    console.log("I am from server and from unfriend");
-    req.session = null;
+app.get("/logout", (req, res) => {
+    console.log("I am from server and from logout");
+    req.session.userId = null;
     res.redirect("/welcome");
 });
 
@@ -426,14 +426,14 @@ server.listen(process.env.PORT || 3001, function () {
 
 io.on("connection", (socket) => {
     //if there is no id, we are ceasing the connection but if there is
-    console.log(`Socket with id: ${socket.id} has connected!`);
+    // console.log(`Socket with id: ${socket.id} has connected!`);
     if (!socket.request.session.userId) {
         return socket.disconnect(true);
     }
 
     //Confirm the user is logged in by finding the user's id in socket.request.session.
     const userId = socket.request.session.userId;
-    console.log("userid in socket", userId);
+    // console.log("userid in socket", userId);
     // console.log("socketId in socket", socket.id);
 
     db.selectMessage().then((result) => {
@@ -464,6 +464,6 @@ io.on("connection", (socket) => {
     });
 
     socket.on("disconnect", () => {
-        console.log(`Socket with id: ${socket.id} just DISCONNECTED!`);
+        // console.log(`Socket with id: ${socket.id} just DISCONNECTED!`);
     });
 });
