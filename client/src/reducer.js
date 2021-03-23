@@ -27,7 +27,7 @@ export default function (state = {}, action) {
                 if (user.id == action.id) {
                     return {
                         ...user,
-                        accepted: false,
+                        accepted: true,
                     };
                 } else {
                     return user;
@@ -39,14 +39,11 @@ export default function (state = {}, action) {
     if (action.type == "DECLINE_FRIEND_REQUEST") {
         state = {
             ...state,
-            friendsAndWannabes: state.friendsAndWannabes.map((user) => {
+            friendsAndWannabes: state.friendsAndWannabes.filter((user) => {
                 if (user.id != action.id) {
                     return {
                         ...user,
-                        accepted: false,
                     };
-                } else {
-                    return user;
                 }
             }),
         };

@@ -437,14 +437,14 @@ io.on("connection", (socket) => {
     // console.log("socketId in socket", socket.id);
 
     db.selectMessage().then((result) => {
-        console.log("resultselectMessage", result.rows);
+        // console.log("resultselectMessage", result.rows);
         socket.emit("chatMessages", result.rows.reverse());
     });
 
     socket.on("chatMessage", (chatMessage) => {
         const sender = socket.request.session.userId;
         db.insertMessage(chatMessage, sender).then(({ rows }) => {
-            console.log("chatMessage", rows);
+            console.log("chatMessages", rows);
             db.selectInfoFromMessage(sender).then((result) => {
                 // console.log("resultForMessage", result.rows);
                 // console.log("sender:", sender);
