@@ -196,7 +196,7 @@ module.exports.selectFriendsAndWannabes = (user) => {
 
 module.exports.selectMessage = () => {
     const q = `
-        SELECT users.id, first_name, last_name, imageurl, chat
+        SELECT users.id, messages.id, first_name, last_name, imageurl, chat
         FROM messages
         JOIN users
         ON (sender_id = users.id)
@@ -220,7 +220,7 @@ module.exports.insertMessage = (chat, sender) => {
 
 module.exports.selectInfoFromMessage = () => {
     const q = `
-        SELECT users.id, first_name, last_name, imageurl, chat
+        SELECT users.id, messages.id, first_name, last_name, imageurl, chat
         FROM messages
         JOIN users
         ON (sender_id = users.id)

@@ -437,27 +437,28 @@ io.on("connection", (socket) => {
     // console.log("socketId in socket", socket.id);
 
     db.selectMessage().then((result) => {
-        // console.log("resultselectMessage", result.rows);
+        console.log("resultselectMessage", result.rows);
         socket.emit("chatMessages", result.rows.reverse());
     });
 
     socket.on("chatMessage", (chatMessage) => {
         const sender = socket.request.session.userId;
         db.insertMessage(chatMessage, sender).then(({ rows }) => {
-            console.log("chatMessages", rows);
+            // console.log("chatMessageRows", rows);
             db.selectInfoFromMessage(sender).then((result) => {
+                // console.log("selectInfoFromMessage", result);
                 // console.log("resultForMessage", result.rows);
                 // console.log("sender:", sender);
                 // console.log("sender:", result.rows[0].first_name);
                 // console.log("sender:", result.rows[0].last_name);
                 // console.log("sender:", result.rows[0].imageurl);
                 // console.log("sender:", result.rows[0].chat);
+                // console.log("sender:", result.rowCount);
                 io.emit("chatMessage", {
-                    id: sender,
+                    chat_id: result.rows[0].id,
                     first_name: result.rows[0].first_name,
                     last_name: result.rows[0].last_name,
                     imageurl: result.rows[0].imageurl,
-                    chat: result.rows[0].chat,
                 });
             });
         });
