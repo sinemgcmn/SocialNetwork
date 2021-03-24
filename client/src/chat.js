@@ -32,15 +32,15 @@ export function Chat() {
             <h1>Chat Room</h1>
             <div className="chat-container" ref={elemRef}>
                 {chatMessages &&
-                    chatMessages.map((chatMessage, i) => {
+                    chatMessages.map((chatMessages, i) => {
                         console.log("i", i);
                         return (
                             <div key={i}>
                                 <p>
-                                    {chatMessage.first_name}{" "}
-                                    {chatMessage.last_name}
+                                    {chatMessages.first_name}{" "}
+                                    {chatMessages.last_name}
                                 </p>
-                                <p> {chatMessage.chat}</p>
+                                <p> {chatMessages.chat}</p>
                             </div>
                         );
                     })}

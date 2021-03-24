@@ -459,6 +459,7 @@ io.on("connection", (socket) => {
                     first_name: result.rows[0].first_name,
                     last_name: result.rows[0].last_name,
                     imageurl: result.rows[0].imageurl,
+                    chat: result.rows[0].chat,
                 });
             });
         });
