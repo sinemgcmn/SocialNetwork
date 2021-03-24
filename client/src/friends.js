@@ -1,7 +1,8 @@
 //you'll need to use useSelector hook TWICE to accomplish this.
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
+
 import {
     receiveFriends,
     acceptFriends,
@@ -50,7 +51,9 @@ export default function FriendOrNot() {
                             return (
                                 <div key={friend.id}>
                                     <div className="mostRecentImg">
-                                        <img src={friend.imageurl} />
+                                        <Link to={`/user/${friend.id}`}>
+                                            <img src={friend.imageurl} />
+                                        </Link>
                                     </div>
                                     <div className="mostRecentNames">
                                         <p>
@@ -81,7 +84,9 @@ export default function FriendOrNot() {
                             return (
                                 <div key={wannabie.id}>
                                     <div className="mostRecentImg">
-                                        <img src={wannabie.imageurl} />
+                                        <Link to={`/user/${wannabie.id}`}>
+                                            <img src={wannabie.imageurl} />
+                                        </Link>
                                     </div>
                                     <div className="mostRecentNames">
                                         <p>
