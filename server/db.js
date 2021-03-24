@@ -235,7 +235,7 @@ module.exports.forgetUser = (userId) => {
     const q = `
         DELETE
         FROM users
-        WHERE id = ${userId};
+        WHERE id = $1;
     `;
     const params = userId;
     return db.query(q, params);
@@ -245,7 +245,7 @@ module.exports.forgetFriendship = (userId) => {
     const q = `
         DELETE
         FROM friendships
-        WHERE userid = ${userId};
+        WHERE (recipient_id = $1 OR sender_id = $1) 
     `;
     const params = userId;
     return db.query(q, params);
@@ -255,7 +255,17 @@ module.exports.forgetMessages = (userId) => {
     const q = `
         DELETE
         FROM messages
-        WHERE userid = ${userId};
+        WHERE sender_id = $1;
+    `;
+    const params = userId;
+    return db.query(q, params);
+};
+
+module.exports.getPhotoUrl = (userId) => {
+    const q = `
+    SELECT imageUrl
+    FROM users
+    WHERE id = ${userId};
     `;
     const params = userId;
     return db.query(q, params);

@@ -29,6 +29,9 @@ export default function Header() {
                     <a className="headerMenuBox" href="/logout">
                         Log out
                     </a>
+                    <a className="headerMenuBox" href="/delete">
+                        Delete Account
+                    </a>
                 </div>
             </div>
         </div>

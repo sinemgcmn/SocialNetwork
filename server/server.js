@@ -245,6 +245,26 @@ app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
     }
 });
 
+app.get("/delete", (req, res) => {
+    const userId = req.session.userId;
+    console.log("I got userId", req.session.userId);
+    db.getPhotoUrl(userId).then(({ rows }) => {
+        // console.log("getPhotoUrl", rows[0]);
+        // console.log("getPhotoUrl", rows[0].imageurl);
+        req.body.imageurl = rows[0].imageurl;
+    });
+
+    // db.forgetMessages(userId);
+    // console.log("deleted message");
+    // db.forgetFriendship(userId);
+    // console.log("deleted friendship");
+    // db.forgetUser(userId);
+    // console.log("deleted user");
+    // delete req.session.userId;
+    // console.log("delete session");
+    // res.redirect("/register");
+});
+
 app.post("/bio", (req, res) => {
     // console.log("I am coming from server");
     const { bioDraft } = req.body;
@@ -437,7 +457,7 @@ io.on("connection", (socket) => {
     // console.log("socketId in socket", socket.id);
 
     db.selectMessage().then((result) => {
-        console.log("resultselectMessage", result.rows);
+        // console.log("resultselectMessage", result.rows);
         socket.emit("chatMessages", result.rows.reverse());
     });
 
@@ -446,7 +466,8 @@ io.on("connection", (socket) => {
         db.insertMessage(chatMessage, sender).then(({ rows }) => {
             // console.log("chatMessageRows", rows);
             db.selectInfoFromMessage(sender).then((result) => {
-                // console.log("selectInfoFromMessage", result);
+                result = result.rows.reverse();
+                console.log("selectInfoFromMessage", result);
                 // console.log("resultForMessage", result.rows);
                 // console.log("sender:", sender);
                 // console.log("sender:", result.rows[0].first_name);
@@ -455,11 +476,11 @@ io.on("connection", (socket) => {
                 // console.log("sender:", result.rows[0].chat);
                 // console.log("sender:", result.rowCount);
                 io.emit("chatMessage", {
-                    chat_id: result.rows[0].id,
-                    first_name: result.rows[0].first_name,
-                    last_name: result.rows[0].last_name,
-                    imageurl: result.rows[0].imageurl,
-                    chat: result.rows[0].chat,
+                    chat_id: result[0].id,
+                    first_name: result[0].first_name,
+                    last_name: result[0].last_name,
+                    imageurl: result[0].imageurl,
+                    chat: result[0].chat,
                 });
             });
         });

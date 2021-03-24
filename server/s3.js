@@ -38,3 +38,18 @@ exports.upload = (req, res, next) => {
             res.sendStatus(500);
         });
 };
+
+exports.delete = (req, res, next) => {
+    // var params = {
+    //     Bucket: "spicedling",
+    //     Key: /////,
+    // };
+
+    s3.deleteObject(params, function (err, data) {
+        if (err) {
+            console.log(err, err.stack);
+            return next(err);
+        }
+        console.log(data);
+    });
+};
