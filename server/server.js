@@ -248,21 +248,20 @@ app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
 app.get("/delete", (req, res) => {
     const userId = req.session.userId;
     console.log("I got userId", req.session.userId);
-    db.getPhotoUrl(userId).then(({ rows }) => {
-        // console.log("getPhotoUrl", rows[0]);
-        // console.log("getPhotoUrl", rows[0].imageurl);
-        req.body.imageurl = rows[0].imageurl;
-    });
-
-    // db.forgetMessages(userId);
-    // console.log("deleted message");
-    // db.forgetFriendship(userId);
-    // console.log("deleted friendship");
-    // db.forgetUser(userId);
-    // console.log("deleted user");
-    // delete req.session.userId;
-    // console.log("delete session");
-    // res.redirect("/register");
+    db.forgetMessages(userId);
+    console.log("deleted message");
+    db.forgetFriendship(userId);
+    console.log("deleted friendship");
+    db.forgetUser(userId);
+    console.log("deleted user");
+    delete req.session.userId;
+    console.log("delete session");
+    res.redirect("/register");
+    // db.getPhotoUrl(userId).then(({ rows }) => {
+    //     // console.log("getPhotoUrl", rows[0]);
+    //     // console.log("getPhotoUrl", rows[0].imageurl);
+    //     req.body.imageurl = rows[0].imageurl;
+    // });
 });
 
 app.post("/bio", (req, res) => {

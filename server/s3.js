@@ -40,11 +40,12 @@ exports.upload = (req, res, next) => {
 };
 
 exports.delete = (req, res, next) => {
-    // var params = {
-    //     Bucket: "spicedling",
-    //     Key: /////,
-    // };
+    var params = {
+        Bucket: "spicedling",
+        Key: req.body.imageurl,
+    };
 
+    console.log(req.body.imageurl);
     s3.deleteObject(params, function (err, data) {
         if (err) {
             console.log(err, err.stack);

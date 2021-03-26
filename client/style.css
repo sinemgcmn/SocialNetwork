@@ -303,17 +303,28 @@ img {
 .chat-container {
     margin: 50px auto;
     width: 1000px;
-
     background-color: white;
-    height: 150px;
+    height: 300px;
     overflow-y: auto;
     color: black;
 }
 
 .chat-text {
-    margin-left: 30%;
+    margin-left: 38%;
     margin-right: 25%;
     margin-top: 1%;
     width: 400px;
     height: 70px;
+}
+
+.chatName {
+    font-weight: bold;
+    color: green;
+}
+
+.chatHeadline {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-style: italic;
 }

@@ -29,14 +29,21 @@ export function Chat() {
     };
     return (
         <>
-            <h1>Chat Room</h1>
+            <h1 className="mostRecentHeadline">
+                We discuss feeding schedule & organization here
+            </h1>
+            <h3 className="chatHeadline">
+                Please do not post anything other than feeding schedule &
+                organization topic.
+            </h3>
+
             <div className="chat-container" ref={elemRef}>
                 {chatMessages &&
                     chatMessages.map((chatMessage, i) => {
                         console.log("i", i);
                         return (
                             <div key={i}>
-                                <p>
+                                <p className="chatName">
                                     {chatMessage.first_name}{" "}
                                     {chatMessage.last_name}
                                 </p>
@@ -45,6 +52,7 @@ export function Chat() {
                         );
                     })}
             </div>
+            <h1 className="mostRecentHeadline">Shoot your message here!</h1>
 
             <textarea className="chat-text" onKeyDown={keyCheck}></textarea>
         </>
