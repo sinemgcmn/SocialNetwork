@@ -6,7 +6,7 @@ React-based authenticated social network featuring friending and chat functional
 
 <img src="https://media.giphy.com/media/dI77afOzWPNBQPjaxH/giphy.gif" width="400" height="250" />
 
-One of the significant focus of this Single Page Application is security such as password hashing, protection against SQL-injection, CSRF- and XSS-attacks, reset code by email, differentiated error handling in the relevant components.
+You can have a personal profile, add/remove friends, accept/decline friend requests, view latest people that joined the network and chat with your community. One of the significant focus of this Single Page Application is security such as password hashing, protection against SQL-injection, CSRF- and XSS-attacks, reset code by email, differentiated error handling in the relevant components.
 
 **Tech Stack:**
 
